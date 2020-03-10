@@ -16,15 +16,13 @@ session = Session()
 Base = declarative_base()
 
 class Covid(Base):
-    __tablename__ = 'covidmap'
-    country = Column(String())
-    lastupdate = Column(String())
-    confirmed = Column(Integer())
-    deaths = Column(Integer())
-    recovered = Column(Integer())
-    latitude = Column(String())
-    longitude = Column(String())
+    __tablename__ = 'data'
+    country = db.Column(String(), primary_key=True)
+    lastupdate = db.Column(String())
+    confirmed = db.Column(Integer())
+    deaths = db.Column(Integer())
+    recovered = db.Column(Integer())
+    latitude = db.Column(String())
+    longitude = db.Column(String())
 
 
-testcovid = session.query(Covid).all()
-print('works')

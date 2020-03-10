@@ -9,6 +9,13 @@ verify_ssl = true
 flask = "*"
 sqlalchemy = "*"
 click = "*"
+mysqldb = "*"
+mysqlclient = "*"
+mysql-python = "*"
+pandas = "*"
+lxml = "*"
+requests = "*"
+bs4 = "*"
 
 [requires]
 python_version = "3.6"
