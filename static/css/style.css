@@ -1,0 +1,21 @@
+body {
+    font-family: 'Inter', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    height: calc(5vh + 2rem);
+    width: 100vw;
+    background: rgb(2,0,36);
+    background: linear-gradient(57deg, rgba(59,172,224,1) 0%, rgba(14,186,152,1) 100%);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: white;
+    margin-bottom: 1rem;
+}
