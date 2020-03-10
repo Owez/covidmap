@@ -8,8 +8,6 @@ verify_ssl = true
 [packages]
 flask = "*"
 sqlalchemy = "*"
-click = "*"
-mysqldb = "*"
 mysqlclient = "*"
 mysql-python = "*"
 pandas = "*"
