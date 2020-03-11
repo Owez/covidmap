@@ -106,7 +106,7 @@ def get_coords():
         response = requests.get('https://maps.googleapis.com/maps/api/geocode/json?address={}&key=AIzaSyB-2lC7PWWHcDvc6T6mtVdmXCzfGf_p0kA'.format(countryname))
         dt = json.loads(response.text)
         #print(dt)
-        print(country)
+        #print(country)
         cordsdict[country] = {'Latitude': dt['results'][0]['geometry']['location']['lat'], 'Longitude': dt['results'][0]['geometry']['location']['lng']}
         #print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
     print(cordsdict)
