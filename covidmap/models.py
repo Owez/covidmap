@@ -1,3 +1,4 @@
+import datetime
 from . import db
 
 class Node(db.Model):
@@ -10,11 +11,11 @@ class Node(db.Model):
     confirmed = db.Column(db.Integer)
     recovered = db.Column(db.Integer)
     deceased = db.Column(db.Integer)
-    updated = db.Column(db.String())
+    created = db.Column(db.String())
 
     def __init__(self, country_name: str, items: dict):
         self.country_name = country_name
         self.confirmed = items["ConfirmedCases"]
         self.recovered = items["Recovered"]
         self.deceased = items["Deaths"]
-        self.updated = items["LastUpdate"]
+        self.created = datetime.datetime.utcnow()
