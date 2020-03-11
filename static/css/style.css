@@ -5,6 +5,17 @@ body {
     margin: 0;
     padding: 0;
     color: #3f3f3f;
+    overflow-x: hidden;
+}
+
+button {
+    border: 1px solid #f3f3f3;
+    text-decoration: none;
+    padding: 0.5rem;
+    color: white;
+    background-color: transparent;
+    border-radius: 0.25rem;
+    margin: 0.25rem;
 }
 
 .navbar {
@@ -105,4 +116,10 @@ body {
     margin-right: 0.5rem;
     min-height: 7.5rem;
     margin-top: 2.5rem;
+}
+
+.navlink {
+    text-decoration: none;
+    color: #f3f3f3;
+    border: 0;
 }
