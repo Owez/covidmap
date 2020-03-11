@@ -76,3 +76,33 @@ body {
 .graph-box {
     margin-bottom: 2rem;
 }
+
+.newswire-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.mapgraph-flex {
+    min-width: 7.5rem;
+    width: 40rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-box {
+    min-width: 7.5rem;
+    width: calc(30rem + 5vw );
+    min-height: 20rem;
+    margin-bottom: 2.5rem;
+}
+
+.newslet {
+    background-color: #dddddd;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    min-height: 7.5rem;
+    margin-top: 2.5rem;
+}

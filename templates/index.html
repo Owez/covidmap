@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Inter|Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" type="text/css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/build/ol.js"></script>
     <title>CovidMap</title>
 </head>
@@ -22,12 +23,23 @@
         </div>
     </div>
     <div class="container">
-        <h1>Get the latest info on COVID-2019</h1>
-        <h4>With CovidMap, you can monitor the state of the COVID-2019 virus.</h4>
-        <div class="graph-box">
-            <div id="map" class="graph-outer">
+        <div class="newswire-flex">
+            <div class="sidebar-box">
+                <h2>Newswire</h2>
+                <div class="newslet"></div>
+                <div class="newslet"></div>
+                <div class="newslet"></div>
+                <div class="newslet"></div>
+                <div class="newslet"></div>
             </div>
-            <p class="graph-title noselect"><span class="graph-title-span">Overall infected/recovered/deceased</span></p>
+            <div class="mapgraph-flex">
+                <div class="sidebar-box">
+                    <h2>Map here</h2>
+                </div>
+                <div class="sidebar-box">
+                    <h2>Graph here</h2>
+                </div>
+            </div>
         </div>
     </div>
     <hr class="footer-sep">
@@ -37,4 +49,5 @@
     </div>
 </body>
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 </html>
