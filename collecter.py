@@ -85,3 +85,38 @@ def csvtojson():
     data = json.dumps(datadict, cls=DateTimeEncoder)
     return data
 
+
+def fulldatatojson():
+    fieldnames = ('Province State', 'Country/Region', 'Last Update', 'Confirmed', 'Deaths', 'Recovered', 'Latitude','Longitude')
+    data = returncsv()
+    countries = []
+    for i in data['Country/Region']:
+        if i not in countries:
+            countries.append(i)
+    datadict = {}
+    for country in countries:
+        confirmed = data[data['Country/Region'] ==  country]['Confirmed']
+        totalconfirmed = 0
+        for conf in confirmed:
+            totalconfirmed += conf
+        deaths = data[data['Country/Region'] == country]['Deaths']
+        totaldeaths = 0
+        for death in deaths:
+            totaldeaths += death
+        recoveries = data[data['Country/Region'] == country]['Recovered']
+        totalrecoveries = 0
+        for recovery in recoveries:
+            totalrecoveries += recovery
+        latitudelist = data[data['Country/Region'] == country]['Latitude']
+
+        datadict[country] = {
+                     'LastUpdate': datetime.datetime.now().utcnow(),
+                     'ConfirmedCases': totalconfirmed,
+                     'Deaths': totaldeaths,
+                     'Recovered': totalrecoveries
+                     }
+    with open('data.json', 'w') as file:
+        file.write(json.dumps(datadict, cls=DateTimeEncoder))
+
+    data = json.dumps(datadict, cls=DateTimeEncoder)
+    return data
