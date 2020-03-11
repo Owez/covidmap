@@ -17,7 +17,7 @@ db = SQLAlchemy(app)
 class Node(db.Model):
     """A single datapoint (usually a countries data)"""
 
-    __tablename__ = "data"
+    __tablename__ = "nodes"
 
     id = db.Column(db.Integer, primary_key=True)
     country_name = db.Column(db.String())
@@ -43,7 +43,6 @@ def index():
 
 def populate_db():
     """Top-level function for getting all csv data from github"""
-
     db.create_all()
     csv_data = json.loads(csvtojson())
 
@@ -52,6 +51,8 @@ def populate_db():
         
         db.session.add(new_node)
         db.session.commit()
+
+
 
 if __name__ == "__main__":
     populate_db()
