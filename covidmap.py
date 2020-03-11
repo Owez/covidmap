@@ -58,7 +58,6 @@ def populate_db():
         db.session.add(new_node)
         db.session.commit()
 
-def data_formatting():
 
 
 if __name__ == "__main__":
