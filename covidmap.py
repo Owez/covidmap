@@ -96,6 +96,7 @@ def data_formatting():
     return datadict
 
 def get_coords():
+<<<<<<< HEAD
     if os.path.exists("cords.json"):
         print('Coords have already been gathered')
     else:
@@ -122,6 +123,26 @@ def get_coords():
         with open('cords.json', 'w') as file:
             file.write(json.dumps(cordsdict))
 
+=======
+    data = Node.query.all()
+    countries = []
+    cordsdict = {}
+    for row in data:
+        if row.country_name not in countries:
+            countries.append(row.country_name)
+    for country in countries:
+        if country == 'Mainland China':
+            countryname = 'China'
+        elif country == 'occupied Palestinian territory':
+            countryname = 'Palestine'
+        response = requests.get('https://maps.googleapis.com/maps/api/geocode/json?address={}&key=AIzaSyB-2lC7PWWHcDvc6T6mtVdmXCzfGf_p0kA'.format(countryname))
+        dt = json.loads(response.text)
+        #print(dt)
+        #print(country)
+        cordsdict[country] = {'Latitude': dt['results'][0]['geometry']['location']['lat'], 'Longitude': dt['results'][0]['geometry']['location']['lng']}
+        #print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
+    print(cordsdict)
+>>>>>>> c91459f567a882c950addb84379394435f4fd08a
 
 
 
