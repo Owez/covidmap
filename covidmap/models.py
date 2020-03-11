@@ -5,15 +5,16 @@ class Node(db.Model):
 
     __tablename__ = "nodes"
 
-    id = db.Column(db.String(), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    country_name = db.Column(db.String())
     confirmed = db.Column(db.Integer)
     recovered = db.Column(db.Integer)
     deceased = db.Column(db.Integer)
     updated = db.Column(db.String())
 
-    def __init__(self, id: str, confirmed: int, recovered: int, deceased: int, updated: str):
-        self.id = id
-        self.confirmed = confirmed
-        self.recovered = recovered
-        self.deceased = deceased
-        self.updated = updated
+    def __init__(self, country_name: str, items: dict):
+        self.country_name = country_name
+        self.confirmed = items["ConfirmedCases"]
+        self.recovered = items["Recovered"]
+        self.deceased = items["Deaths"]
+        self.updated = items["LastUpdate"]
