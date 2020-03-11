@@ -4,7 +4,8 @@ import datetime
 from flask import Flask, render_template, make_response
 from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson
-
+from pyutilities.cordscraper import get_countries_csv
+import requests
 # CONFIG #
 
 app = Flask(__name__)
@@ -34,17 +35,23 @@ class Node(db.Model):
         self.deceased = items["Deaths"]
         self.created = datetime.datetime.utcnow()
 
+
 # ROUTES #
 
 @app.route("/")
 def index():
-    return render_template("index.html", nodes=Node.query.all())
+    return render_template("index.html")
+
 #dummy route
+
 @app.route('/data', methods=['GET'])
 def passdata():
-    response = {'Success':'Request is successful'}
-    data_formatting()
-    return response, 200
+    #try:
+        response = {'Success':'Data has been successfully obtained', 'Data': get_coords()}
+        return response, 200
+   # except:
+     #   response = {'Error':'An error has occured.'}
+     #   return response, 400
 
 # UTILS #
 
@@ -62,9 +69,50 @@ def populate_db():
 
     for country_name in csv_data:
         new_node = Node(country_name, csv_data[country_name])
-        
+
         db.session.add(new_node)
         db.session.commit()
+
+
+def data_formatting():
+    data = Node.query.all()
+    countries = []
+    datadict = {}
+    for row in data:
+        if row.country_name not in countries:
+            countries.append(row.country_name)
+    for country in countries:
+        for row in data:
+            if row.country_name==country:
+                datadict[country]= {
+                    'confirmed': row.confirmed,
+                    'deaths': row.deceased,
+                    'recovered': row.recovered
+                }
+    #print(datadict)
+    return datadict
+
+def get_coords():
+    data = Node.query.all()
+    countries = []
+    cordsdict = {}
+    for row in data:
+        if row.country_name not in countries:
+            countries.append(row.country_name)
+    for country in countries:
+        if country == 'Mainland China':
+            countryname = 'China'
+        elif country == 'occupied Palestinian territory':
+            countryname = 'Palestine'
+        response = requests.get('https://maps.googleapis.com/maps/api/geocode/json?address={}&key=AIzaSyB-2lC7PWWHcDvc6T6mtVdmXCzfGf_p0kA'.format(countryname))
+        dt = json.loads(response.text)
+        #print(dt)
+        print(country)
+        cordsdict[country] = {'Latitude': dt['results'][0]['geometry']['location']['lat'], 'Longitude': dt['results'][0]['geometry']['location']['lng']}
+        #print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
+    print(cordsdict)
+
+
 
 
 if __name__ == "__main__":

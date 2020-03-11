@@ -38,6 +38,13 @@ async function get_data() {
 
 function processdata(){
     data = get_data();
+    try{
 
+    }
+    catch (e) {
+        if (data['Error']){
+            console.log(data['Error'])
+        }
+    }
 }
 
