@@ -1,6 +1,6 @@
 import json
 import datetime
-from flask import Flask, render_template
+from flask import Flask, render_template, make_response
 from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson
 
@@ -38,6 +38,12 @@ class Node(db.Model):
 @app.route("/")
 def index():
     return render_template("index.html", nodes=Node.query.all())
+#dummy route
+@app.route('/data', methods=['GET'])
+def passdata():
+    response = {'Success':'Request is successful'}
+    data_formatting()
+    return response, 200
 
 # UTILS #
 
@@ -52,6 +58,7 @@ def populate_db():
         db.session.add(new_node)
         db.session.commit()
 
+def data_formatting():
 
 
 if __name__ == "__main__":
