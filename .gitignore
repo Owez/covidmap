@@ -3,6 +3,7 @@
 .idea/
 
 # Stuff that needs to be fixed
+covidmap/covidmap.db
 data.csv
 data.json
 

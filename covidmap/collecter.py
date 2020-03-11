@@ -5,7 +5,6 @@ import json
 from json import JSONEncoder
 import datetime
 from .models import Node
-from . import db
 
 class DateTimeEncoder(JSONEncoder):
     def default(self, obj):
@@ -87,13 +86,3 @@ def csvtojson():
     data = json.dumps(datadict, cls=DateTimeEncoder)
     return data
 
-def populate_db():
-    """Top-level function for getting all csv data from github"""
-
-    csv_data = json.loads(csvtojson())
-
-    for country_name in csv_data:
-        new_node = Node(country_name, csv_data[country_name])
-        
-        db.session.add(new_node)
-        db.session.commit()
