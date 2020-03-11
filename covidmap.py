@@ -4,7 +4,6 @@ import datetime
 from flask import Flask, render_template, make_response
 from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson
-from pyutilities.cordscraper import get_countries_csv
 import requests
 # CONFIG #
 
