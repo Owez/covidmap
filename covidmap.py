@@ -37,7 +37,7 @@ class Node(db.Model):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", nodes=Node.query.all())
 
 # UTILS #
 
