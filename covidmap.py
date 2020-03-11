@@ -5,11 +5,9 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson
 import requests
-from flask_cors import CORS
 # CONFIG #
 
 app = Flask(__name__)
-CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///covidmap.db'
 
@@ -96,7 +94,6 @@ def data_formatting():
     return datadict
 
 def get_coords():
-<<<<<<< HEAD
     if os.path.exists("cords.json"):
         print('Coords have already been gathered')
     else:
@@ -123,7 +120,6 @@ def get_coords():
         with open('cords.json', 'w') as file:
             file.write(json.dumps(cordsdict))
 
-=======
     data = Node.query.all()
     countries = []
     cordsdict = {}
@@ -142,7 +138,6 @@ def get_coords():
         cordsdict[country] = {'Latitude': dt['results'][0]['geometry']['location']['lat'], 'Longitude': dt['results'][0]['geometry']['location']['lng']}
         #print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
     print(cordsdict)
->>>>>>> c91459f567a882c950addb84379394435f4fd08a
 
 
 
