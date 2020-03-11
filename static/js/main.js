@@ -21,30 +21,29 @@ var confirmed = L.circle([51.508, -0.11], {
     radius: zoomfactor(1)
 }).addTo(mymap);
 
-async function get_data() {
-    const url = '/data';
-    const response = await fetch(url,{
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'applications/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer'
-    });
-    return await response.json();}
 
-function processdata(){
-    data = get_data();
-    try{
+async function get_coords(){
+    let url = '/coords';
+    const response = await fetch(url, {
+          method: 'GET',
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer',
+        });
+        var data = await response.json();
+        console.log(data);
+        for (country in data['Data']){
+            console.log('Country: ' + country + ' Latitude: ' + data['Data'][country]['Latitude'] + ' Longitude: ' + data['Data'][country]['Longitude']);
 
-    }
-    catch (e) {
-        if (data['Error']){
-            console.log(data['Error'])
         }
-    }
-}
+        return data}
+
+
+
+
 
