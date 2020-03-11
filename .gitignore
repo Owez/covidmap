@@ -2,8 +2,10 @@
 .vscode/
 .idea/
 
+# Other
+covidmap.db
+
 # Stuff that needs to be fixed
-covidmap/covidmap.db
 data.csv
 data.json
 

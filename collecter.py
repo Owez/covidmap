@@ -4,7 +4,6 @@ import requests
 import json
 from json import JSONEncoder
 import datetime
-from .models import Node
 
 class DateTimeEncoder(JSONEncoder):
     def default(self, obj):
