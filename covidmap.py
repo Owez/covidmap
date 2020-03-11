@@ -1,3 +1,4 @@
+import os
 import json
 import datetime
 from flask import Flask, render_template
@@ -43,6 +44,13 @@ def index():
 
 def populate_db():
     """Top-level function for getting all csv data from github"""
+
+    print("Populating database..")
+
+    if os.path.exists("covidmap.db"):
+        print("Database is already populated!")
+        return
+
     db.create_all()
     csv_data = json.loads(csvtojson())
 
@@ -51,7 +59,6 @@ def populate_db():
         
         db.session.add(new_node)
         db.session.commit()
-
 
 
 if __name__ == "__main__":
