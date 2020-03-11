@@ -17,7 +17,7 @@ db = SQLAlchemy(app)
 class Node(db.Model):
     """A single datapoint (usually a countries data)"""
 
-    __tablename__ = "nodes"
+    __tablename__ = "data"
 
     id = db.Column(db.Integer, primary_key=True)
     country_name = db.Column(db.String())
