@@ -60,19 +60,19 @@ class Node(db.Model):
         self.created = datetime.datetime.utcnow()
 
 
-# class Newslet(db.Model):
-#     """A single found article"""
-#
-#     id = db.Column(db.String(), primary_key=True)
-#     title = db.Column(db.String())
-#     lead_paragraph = db.Column(db.String())
-#     created = db.Column(db.DateTime)
-#
-#     def __init__(self, id: str, title: str, lead_paragraph: str):
-#         self.id = id
-#         self.title = title
-#         self.lead_paragraph = lead_paragraph
-#         self.created = datetime.datetime.now()
+class Newslet(db.Model):
+    """A single found article"""
+
+    id = db.Column(db.String(), primary_key=True)
+    title = db.Column(db.String())
+    lead_paragraph = db.Column(db.String())
+    created = db.Column(db.DateTime)
+
+    def __init__(self, id: str, title: str, lead_paragraph: str):
+        self.id = id
+        self.title = title
+        self.lead_paragraph = lead_paragraph
+        self.created = datetime.datetime.now()
 
 
 # ROUTES #
