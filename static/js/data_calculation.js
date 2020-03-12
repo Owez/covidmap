@@ -15,15 +15,23 @@ async function get_data(){
         return data['Data']}
 
 async function global_numbers() {
-    let data = await get_data();
-    await console.log(data);
-    count = 0;
-
-    for (date in data) {
-        count += 1;
-        await console.log(data[date]);
-
+    let parsed = await get_data();
+    //console.log(parsed)
+    let globals_by_date = {};
+    for (let [date, countries] of Object.entries(parsed)) {
+        globals_by_date[date] = {};
+        let totaldeaths=0;
+        let totalconfirmed=0;
+        let totalrecovered=0;
+        for (let [countryName, value] of Object.entries(countries[0])) {
+            totaldeaths += value['Deaths'];
+            totalconfirmed += value['ConfirmedCases'];
+            totalrecovered += value['Recovered']
+        }
+        globals_by_date[date]=({'Confirmed':totalconfirmed, 'Deaths':totaldeaths, 'Recovered':totalrecovered});
     }
-    await console.log(count);
-}
+    console.log(globals_by_date);
+
+return globals_by_date;}
+
 
