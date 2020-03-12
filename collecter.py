@@ -172,8 +172,13 @@ def get_data_from_all_to_json():
     except FileExistsError:
         pass
     delglobal()
+<<<<<<< HEAD
     if os.path.exists("data/totaldata.json"):
         os.remove("data/totaldata.json")
+=======
+    if os.path.exists("graphdata.json"):
+        os.remove("graphdata.json")
+>>>>>>> 3994a1ee5db49dc1d188a1cccdef5d6214f06069
     url = "https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports"
     page = requests.get(url)
 
@@ -260,6 +265,10 @@ def get_data_from_all_to_json():
     for d in list_of_dicts:
         for key, value in d.items():
             master[key].append(value)
+<<<<<<< HEAD
     with open("data/totaldata.json", "w") as file:
+=======
+    with open("graphdata.json", "w") as file:
+>>>>>>> 3994a1ee5db49dc1d188a1cccdef5d6214f06069
         file.write(json.dumps(master))
     delglobal()

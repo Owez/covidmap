@@ -6,10 +6,13 @@ from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson, get_data_from_all_to_json
 import requests
 
+<<<<<<< HEAD
 get_data_from_all_to_json()
 with open('data/totaldata.json', 'r') as file:
     global totaldatajson
     totaldatajson = json.load(file)
+=======
+>>>>>>> 3994a1ee5db49dc1d188a1cccdef5d6214f06069
 
 # CONFIG #
 
@@ -100,9 +103,9 @@ def passdata():
         return response, 400
 
 
-@app.route("/totaldata", methods=["GET"])
-def totaldata():
-    response = {"Success": "Data has been successfully obtained", "Data": totaldatajson}
+@app.route("/graphdata", methods=["GET"])
+def graphdata():
+    response = {"Success": "Data has been successfully obtained", "Data": graphdatajson}
     return response, 200
 
 
@@ -115,12 +118,20 @@ def passkey():
 
 @app.route("/accesskey", methods=["GET"])
 def accesskey():
-    # print(os.getenv('access_key'))
+    # print(os.getenv("access_key"))
     return {"key": os.environ["access_key"]}
 
 
 # UTILS #
 
+def setup_graph_data():
+    """Makes graphdata.json and sets as global"""
+    
+    get_data_from_all_to_json() # gens graphdata.json
+
+    with open("graphdata.json", "r") as file:
+        global graphdatajson
+        graphdatajson = json.load(file)
 
 def pull_nytimes() -> bool:
     """Adds new nytimes stuff to database and returns if it was successful"""
@@ -180,7 +191,7 @@ def data_formatting():
                     "deaths": row.deceased,
                     "recovered": row.recovered,
                 }
-            # print(datadict[country]['recovered'])
+            # print(datadict[country]["recovered"])
     return datadict
 
 
@@ -213,7 +224,7 @@ def get_coords():
                 "Latitude": dt["results"][0]["geometry"]["location"]["lat"],
                 "Longitude": dt["results"][0]["geometry"]["location"]["lng"],
             }
-            # print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
+            # print("Country: {}".format(country) + str(dt["results"][0]["geometry"]["location"]))
             # print(cordsdict)
             with open("data/cords.json", "w") as file:
                 file.write(json.dumps(cordsdict))
@@ -241,11 +252,13 @@ def get_coords():
             "Latitude": dt["results"][0]["geometry"]["location"]["lat"],
             "Longitude": dt["results"][0]["geometry"]["location"]["lng"],
         }
-        # print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
+        # print("Country: {}".format(country) + str(dt["results"][0]["geometry"]["location"]))
     # print(cordsdict)
 
 
 if __name__ == "__main__":
+    setup_graph_data()
     populate_db()
     get_coords()
+
     app.run(debug=True)

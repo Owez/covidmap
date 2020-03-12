@@ -95,15 +95,12 @@ button {
 }
 
 .mapgraph-flex {
-    min-width: 7.5rem;
-    width: 40rem;
     display: flex;
     flex-direction: column;
 }
 
 .sidebar-box {
-    min-width: 7.5rem;
-    width: calc(30rem + 5vw );
+    width: calc(7.5rem + 30vw );
     min-height: 20rem;
     margin-bottom: 2.5rem;
 }

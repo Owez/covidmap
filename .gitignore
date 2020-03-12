@@ -8,6 +8,10 @@ covidmap.db
 # Stuff that needs to be fixed
 data.csv
 data.json
+totaldata.json
+graphdata.json
+data.csv
+global_daily
 
 # Poetry
 poetry.lock
