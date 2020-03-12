@@ -39,7 +39,8 @@ button {
 
 .graph-outer {
     background-color: #e7e7e7;
-    width: 65vh;
+    min-width: 7.5rem;
+    width: calc(20rem + 15vw);
     height: 65vh;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
@@ -84,10 +85,6 @@ button {
     user-select: none;
 }
 
-.graph-box {
-    margin-bottom: 2rem;
-}
-
 .newswire-flex {
     display: flex;
     flex-wrap: wrap;
@@ -95,12 +92,15 @@ button {
 }
 
 .mapgraph-flex {
+    min-width: 7.5rem;
+    width: calc(20rem + 15vw);
     display: flex;
     flex-direction: column;
 }
 
 .sidebar-box {
-    width: calc(7.5rem + 30vw );
+    min-width: 7.5rem;
+    width: calc(20rem + 15vw);
     min-height: 20rem;
     margin-bottom: 2.5rem;
 }
