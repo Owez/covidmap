@@ -195,7 +195,7 @@ def populate_db():
 
 
 def data_formatting():
-    data = country.query.all()
+    data = Country.query.all()
     countries = []
     datadict = {}
     for row in data:
@@ -217,7 +217,7 @@ def get_coords():
     if os.path.exists("data/cords.json"):
         print("Coords have already been gathered, no need to fetch!")
     else:
-        data = country.query.all()
+        data = Country.query.all()
         countries = []
         cordsdict = {}
         for row in data:
