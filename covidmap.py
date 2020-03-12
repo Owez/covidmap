@@ -128,14 +128,14 @@ def setup_graph_data():
         graphdatajson = json.load(file)
 
 
-def pull_nytimes() -> bool:
-    """Adds new nytimes stuff to database and returns if it was successful"""
+def pull_nytimes() -> int:
+    """Adds new nytimes stuff to database and returns status code"""
 
     search = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=coronavirus&api-key={config.NYTIMES_KEY}"
     resp = requests.get(search)
 
     if resp.status_code != 200:
-        return False
+        return resp.status_code
 
     for newslet in resp.json()["response"]["docs"]:
         if Newslet.query.filter_by(id=newslet["web_url"]).first() is None:
@@ -146,7 +146,7 @@ def pull_nytimes() -> bool:
             db.session.add(new_newslet)
             db.session.commit()
 
-    return True
+    return resp.status_code
 
 
 def populate_db():
@@ -167,8 +167,9 @@ def populate_db():
 
     print("Adding newslets..")
 
-    if not pull_nytimes():
-        print("Failed to add newslets!")
+    nytimes_respcode = pull_nytimes()
+    if nytimes_respcode != 200:
+        print("Failed to add newslets, error code: '{nytimes_respcode}'!")
 
 
 def data_formatting():
