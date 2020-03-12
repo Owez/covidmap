@@ -43,6 +43,7 @@ button {
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     border-bottom-left-radius: 1rem;
+    width: 100%;
 }
 
 .footer-sep {
