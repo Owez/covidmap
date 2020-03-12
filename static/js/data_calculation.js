@@ -1,5 +1,5 @@
 async function get_data(){
-    let url = '/totaldata';
+    let url = '/graphdata';
     const response = await fetch(url, {
           method: 'GET',
           mode: 'cors',

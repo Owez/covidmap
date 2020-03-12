@@ -6,6 +6,10 @@ from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson, get_data_from_all_to_json
 import requests
 
+print("Loading graph data into ram")
+get_data_from_all_to_json()  # gens graphdata.json
+
+
 
 # CONFIG #
 
@@ -95,11 +99,11 @@ def passdata():
         response = {"Error": "An error has occured."}
         return response, 400
 
-
 @app.route("/graphdata", methods=["GET"])
 def graphdata():
-    response = {"Success": "Data has been successfully obtained", "Data": graphdatajson}
-    return response, 200
+    with open("data/graphdata.json", "r") as file:
+        response = {"Success": "Data has been successfully obtained", "Data": json.load(file)}
+        return response, 200
 
 
 @app.route("/coords", methods=["GET"])
@@ -118,14 +122,6 @@ def accesskey():
 # UTILS #
 
 
-def setup_graph_data():
-    """Makes data/graphdata.json and sets as global"""
-
-    get_data_from_all_to_json()  # gens graphdata.json
-
-    with open("data/graphdata.json", "r") as file:
-        global graphdatajson
-        graphdatajson = json.load(file)
 
 def pull_nytimes() -> int:
     """Adds new nytimes stuff to database and returns status code"""
@@ -151,8 +147,6 @@ def pull_nytimes() -> int:
 def populate_db():
     """Top-level function for getting all csv data from github"""
 
-    print("Loading graph data into RAM..")
-    setup_graph_data()
 
     print("Populating database..")
     if os.path.exists("covidmap.db"):
