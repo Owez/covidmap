@@ -80,8 +80,8 @@ class Province(db.Model):
     def __init__(self, province_name: str, confirmed: int, coords: (str, str)):
         self.province_name = province_name
         self.confirmed = confirmed
-        self.lat_coord = coords[0]
-        self.long_coord = coords[1]
+        self.long_coord = coords[0]
+        self.lat_coord = coords[1]
         self.created = datetime.datetime.utcnow()
 
 
