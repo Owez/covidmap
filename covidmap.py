@@ -52,6 +52,14 @@ def passdata():
         response = {'Error':'An error has occured.'}
         return response, 400
 
+@app.route('/totaldata', methods=['GET'])
+def totaldata():
+    with open('totaldata.json', 'r') as file:
+        jsfile = json.load(file)
+        response = {'Success':'Data has been successfully obtained', 'Data': jsfile}
+    return response, 200
+
+
 @app.route('/coords', methods=['GET'])
 def passkey():
     with open('cords.json', 'r') as file:
@@ -60,7 +68,7 @@ def passkey():
 
 @app.route('/accesskey', methods=['GET'])
 def accesskey():
-    print(os.getenv('access_key'))
+    #print(os.getenv('access_key'))
     return {'key': os.environ['access_key']}
 
 # UTILS #
@@ -96,7 +104,7 @@ def data_formatting():
                     'deaths': row.deceased,
                     'recovered': row.recovered
                 }
-                print(datadict[country]['recovered'])
+               # print(datadict[country]['recovered'])
     return datadict
 
 def get_coords():
@@ -119,10 +127,10 @@ def get_coords():
             response = requests.get('https://maps.googleapis.com/maps/api/geocode/json?address={}&key=AIzaSyB-2lC7PWWHcDvc6T6mtVdmXCzfGf_p0kA'.format(countryname))
             dt = json.loads(response.text)
             #print(dt)
-            print(country)
+            #print(country)
             cordsdict[country] = {'Latitude': dt['results'][0]['geometry']['location']['lat'], 'Longitude': dt['results'][0]['geometry']['location']['lng']}
             #print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
-            print(cordsdict)
+            #print(cordsdict)
             with open('cords.json', 'w') as file:
                 file.write(json.dumps(cordsdict))
 
@@ -143,7 +151,7 @@ def get_coords():
         #print(country)
         cordsdict[country] = {'Latitude': dt['results'][0]['geometry']['location']['lat'], 'Longitude': dt['results'][0]['geometry']['location']['lng']}
         #print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
-    print(cordsdict)
+    #print(cordsdict)
 
 
 

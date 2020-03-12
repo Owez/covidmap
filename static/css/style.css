@@ -39,7 +39,7 @@ button {
 
 .graph-outer {
     background-color: #e7e7e7;
-    width: 100%;
+    width: 65vh;
     height: 65vh;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;

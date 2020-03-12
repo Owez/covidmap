@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from json import JSONEncoder
-import datetime
 import os
+import datetime
 from collections import defaultdict
 from pprint import pprint as pp
 from pathlib import Path
@@ -103,7 +103,6 @@ def csvtojsonfunction(data, name):
     datadict = {}
     name = name.split('.csv')[0]
     datadict[name] = {}
-    print(datadict)
     for country in countries:
         confirmed = data[data['Country/Region'] ==  country]['Confirmed']
         totalconfirmed = 0
@@ -119,10 +118,9 @@ def csvtojsonfunction(data, name):
             totalrecoveries += recovery
         datadict[name].update({ country:
                         {
-                        'LastUpdate': datetime.datetime.now().utcnow(),
-                        'ConfirmedCases': totalconfirmed,
-                        'Deaths': totaldeaths,
-                        'Recovered': totalrecoveries
+                        'ConfirmedCases': int(totalconfirmed),
+                        'Deaths': int(totaldeaths),
+                        'Recovered': int(totalrecoveries)
                         }
                         })
     with open('global_daily/{}.json'.format(name), 'w') as file:
@@ -130,6 +128,8 @@ def csvtojsonfunction(data, name):
 
 def get_data_from_all_to_json():
     delglobal()
+    if os.path.exists('totaldata.json'):
+        os.remove('totaldata.json')
     url = 'https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports'
     page = requests.get(url)
 
@@ -159,13 +159,14 @@ def get_data_from_all_to_json():
         pd.set_option('display.max_rows', None)
         df = pd.read_csv('global_daily/{}'.format(name), usecols=['Country/Region', 'Last Update', 'Confirmed', 'Deaths', 'Recovered'])
         df.fillna("0", inplace=True)
-        df.to_csv('global_daily/{}'.format(name))
+        df.to_csv('global_daily/{}'.format(name), index=False)
         #print(df)
 
     csvfiles = os.listdir('global_daily')
+    print(csvfiles)
     for file in csvfiles:
-        df = pd.read_csv('global_daily/{}'.format(name),usecols=['Country/Region', 'Last Update', 'Confirmed', 'Deaths', 'Recovered'])
-        print(file)
+        df = pd.read_csv(f'global_daily/{file}',usecols=['Country/Region', 'Last Update', 'Confirmed', 'Deaths', 'Recovered'])
+        print(f'Converting: {file} to json')
         csvtojsonfunction(df, file)
     csvfiles = os.listdir('global_daily')
     for csv in csvfiles:
@@ -189,3 +190,5 @@ def get_data_from_all_to_json():
         file.write(json.dumps(master))
     delglobal()
 
+
+get_data_from_all_to_json()
