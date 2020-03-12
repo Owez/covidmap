@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
-	<link rel="icon" type="image/png" href="/static/logo.ico"/>
+    <link rel="icon" type="image/png" href="/static/logo.ico" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Inter|Open+Sans&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.ico') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -28,12 +29,13 @@
         </div>
     </div>
     <div class="container">
+        <div class="map-outer">
+            <div class="graph-outer map" id="mapid"></div>
+            <p class="graph-title"><span class="graph-title-span">Covid-19</span></p>
+        </div>
         <div class="newswire-flex">
-            <div class="mapgraph-flex">
-                <div class="sidebar-box">
-                    <div class="graph-outer" id="mapid"></div>
-                    <p class="graph-title"><span class="graph-title-span">Covid-19</span></p>
-                </div>
+            <div>
+                <h2>Infographics</h2>
                 <div class="sidebar-box">
                     <canvas id="myChart" class="graph-outer">
                     </canvas>
@@ -64,9 +66,10 @@
     <hr class="footer-sep">
     <div class="footer">
         <p>Made by CovidMap team</p>
-							<p>
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> | All rights reserved
-							</p>
+        <p>
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script> | All rights reserved
+        </p>
     </div>
 </body>
 <script type="text/javascript" src="./static/js/data_calculation.js"></script>
