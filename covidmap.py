@@ -10,7 +10,6 @@ print("Loading graph data into ram")
 get_data_from_all_to_json()  # gens graphdata.json
 
 
-
 # CONFIG #
 
 
@@ -44,23 +43,45 @@ db = SQLAlchemy(app)
 # MODELS #
 
 
-class Node(db.Model):
+class Country(db.Model):
     """A single datapoint (usually a countries data)"""
 
-    __tablename__ = "nodes"
+    __tablename__ = "countries"
 
     id = db.Column(db.Integer, primary_key=True)
     country_name = db.Column(db.String())
-    confirmed = db.Column(db.Integer)
-    recovered = db.Column(db.Integer)
-    deceased = db.Column(db.Integer)
-    created = db.Column(db.String())
+    confirmed = db.Column(db.Integer)  # not used atm
+    recovered = db.Column(db.Integer)  # not used atm
+    deceased = db.Column(db.Integer)  # not used atm
+    provinces = db.relationship("Province", backref="country", lazy=True)
+    created = db.Column(db.DateTime)
 
     def __init__(self, country_name: str, items: dict):
         self.country_name = country_name
         self.confirmed = items["ConfirmedCases"]
         self.recovered = items["Recovered"]
         self.deceased = items["Deaths"]
+        self.created = datetime.datetime.utcnow()
+
+
+class Province(db.Model):
+    """A single province inside of a country"""
+
+    __tablename__ = "provinces"
+
+    id = db.Column(db.Integer, primary_key=True)
+    province_name = db.Column(db.String())
+    confirmed = db.Column(db.Integer)
+    lat_coord = db.Column(db.String(64))
+    long_coord = db.Column(db.String(64))
+    created = db.Column(db.DateTime)
+    country_id = db.Column(db.Integer, db.ForeignKey("country.id"), nullable=False)
+
+    def __init__(self, province_name: str, confirmed: int, coords: (str, str)):
+        self.province_name = province_name
+        self.confirmed = confirmed
+        self.lat_coord = coords[0]
+        self.long_coord = coords[1]
         self.created = datetime.datetime.utcnow()
 
 
@@ -99,10 +120,14 @@ def passdata():
         response = {"Error": "An error has occured."}
         return response, 400
 
+
 @app.route("/graphdata", methods=["GET"])
 def graphdata():
     with open("data/graphdata.json", "r") as file:
-        response = {"Success": "Data has been successfully obtained", "Data": json.load(file)}
+        response = {
+            "Success": "Data has been successfully obtained",
+            "Data": json.load(file),
+        }
         return response, 200
 
 
@@ -120,7 +145,6 @@ def accesskey():
 
 
 # UTILS #
-
 
 
 def pull_nytimes() -> int:
@@ -147,7 +171,6 @@ def pull_nytimes() -> int:
 def populate_db():
     """Top-level function for getting all csv data from github"""
 
-
     print("Populating database..")
     if os.path.exists("covidmap.db"):
         print("Database is already populated!")
@@ -157,8 +180,8 @@ def populate_db():
     db.create_all()
     csv_data = json.loads(csvtojson())
     for country_name in csv_data:
-        new_node = Node(country_name, csv_data[country_name])
-        db.session.add(new_node)
+        new_country = Country(country_name, csv_data[country_name])
+        db.session.add(new_country)
         db.session.commit()
 
     print("Getting coords for map..")
@@ -170,8 +193,9 @@ def populate_db():
     if nytimes_respcode != 200:
         print("Failed to add newslets, error code: '{nytimes_respcode}'!")
 
+
 def data_formatting():
-    data = Node.query.all()
+    data = country.query.all()
     countries = []
     datadict = {}
     for row in data:
@@ -193,7 +217,7 @@ def get_coords():
     if os.path.exists("data/cords.json"):
         print("Coords have already been gathered, no need to fetch!")
     else:
-        data = Node.query.all()
+        data = country.query.all()
         countries = []
         cordsdict = {}
         for row in data:
@@ -224,7 +248,7 @@ def get_coords():
             with open("data/cords.json", "w") as file:
                 file.write(json.dumps(cordsdict))
 
-    data = Node.query.all()
+    data = country.query.all()
     countries = []
     cordsdict = {}
     for row in data:
