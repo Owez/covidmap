@@ -5,13 +5,20 @@ import json
 from json import JSONEncoder
 import datetime
 import os
-from shutil import copyfile
+from collections import defaultdict
+from pprint import pprint as pp
+from pathlib import Path
 
 class DateTimeEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, (datetime.date, datetime.datetime)):
             return obj.isoformat()
 
+def delglobal():
+    mypath = "./global_daily"
+    for root, dirs, files in os.walk(mypath):
+        for file in files:
+            os.remove(os.path.join(root, file))
 
 def get_most_recent():
     url = 'https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports'
@@ -94,6 +101,9 @@ def csvtojsonfunction(data, name):
         if i not in countries:
             countries.append(i)
     datadict = {}
+    name = name.split('.csv')[0]
+    datadict[name] = {}
+    print(datadict)
     for country in countries:
         confirmed = data[data['Country/Region'] ==  country]['Confirmed']
         totalconfirmed = 0
@@ -107,9 +117,7 @@ def csvtojsonfunction(data, name):
         totalrecoveries = 0
         for recovery in recoveries:
             totalrecoveries += recovery
-        name = name.split('.csv')[0]
-        datadict[name] = {}
-        datadict.update({ country:
+        datadict[name].update({ country:
                         {
                         'LastUpdate': datetime.datetime.now().utcnow(),
                         'ConfirmedCases': totalconfirmed,
@@ -121,6 +129,7 @@ def csvtojsonfunction(data, name):
         file.write(json.dumps(datadict, cls=DateTimeEncoder))
 
 def get_data_from_all_to_json():
+    delglobal()
     url = 'https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports'
     page = requests.get(url)
 
@@ -162,25 +171,21 @@ def get_data_from_all_to_json():
     for csv in csvfiles:
         if csv.endswith('.csv'):
             os.remove('global_daily/{}'.format(csv))
-            pass
-    jsonfiles = os.listdir('global_daily')
-    print('TEST: {}'.format(jsonfiles[0:]))
-    with open(f'global_daily/{jsonfiles[0]}', 'r') as jf:
-        dct = {**json.load(jf)}
 
-    for file in jsonfiles[0:]:
-        with open(f'global_daily/{file}', 'r') as jf:
-            contents = json.load(jf)
 
-        for k, v in contents.items():
-            dct[k].update(v)
-            print(dct)
+    global_daily = Path("global_daily")
 
-    with open('globaldaily/totaldata.json', 'w') as f:
-        json.dump(dct, f)
+    list_of_dicts = []
+    for file in global_daily.glob("*.json"):
+        with file.open() as fd:
+            list_of_dicts.append(json.load(fd))
 
-mypath = "./global_daily" #Enter your path here
-for root, dirs, files in os.walk(mypath):
-    for file in files:
-        os.remove(os.path.join(root, file))
-get_data_from_all_to_json()
+    master = defaultdict(list)
+
+    for d in list_of_dicts:
+        for key, value in d.items():
+            master[key].append(value)
+    with open('totaldata.json', 'w') as file:
+        file.write(json.dumps(master))
+    delglobal()
+
