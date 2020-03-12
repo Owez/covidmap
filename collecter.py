@@ -17,7 +17,7 @@ class DateTimeEncoder(JSONEncoder):
 
 
 def delglobal():
-    mypath = "./global_daily"
+    mypath = "./data/global_daily"
     for root, dirs, files in os.walk(mypath):
         for file in files:
             os.remove(os.path.join(root, file))
@@ -162,13 +162,13 @@ def csvtojsonfunction(data, name):
                 }
             }
         )
-    with open("global_daily/{}.json".format(name), "w") as file:
+    with open("data/global_daily/{}.json".format(name), "w") as file:
         file.write(json.dumps(datadict, cls=DateTimeEncoder))
 
 
 def get_data_from_all_to_json():
     try:
-        os.makedirs('global_daily')
+        os.makedirs('data/global_daily')
     except FileExistsError:
         pass
     delglobal()
@@ -211,11 +211,11 @@ def get_data_from_all_to_json():
             name
         )
         recent = requests.get(lastelementurl)
-        with open("global_daily/{}".format(name), "wb") as file:
+        with open("data/global_daily/{}".format(name), "wb") as file:
             file.write(recent.text.encode("utf-8"))
         pd.set_option("display.max_rows", None)
         df = pd.read_csv(
-            "global_daily/{}".format(name),
+            "data/global_daily/{}".format(name),
             usecols=[
                 "Country/Region",
                 "Last Update",
@@ -225,14 +225,14 @@ def get_data_from_all_to_json():
             ],
         )
         df.fillna("0", inplace=True)
-        df.to_csv("global_daily/{}".format(name), index=False)
+        df.to_csv("data/global_daily/{}".format(name), index=False)
         # print(df)
 
-    csvfiles = os.listdir("global_daily")
+    csvfiles = os.listdir("data/global_daily")
     print(csvfiles)
     for file in csvfiles:
         df = pd.read_csv(
-            f"global_daily/{file}",
+            f"data/global_daily/{file}",
             usecols=[
                 "Country/Region",
                 "Last Update",
@@ -243,12 +243,12 @@ def get_data_from_all_to_json():
         )
         print(f"Converting: {file} to json")
         csvtojsonfunction(df, file)
-    csvfiles = os.listdir("global_daily")
+    csvfiles = os.listdir("data/global_daily")
     for csv in csvfiles:
         if csv.endswith(".csv"):
-            os.remove("global_daily/{}".format(csv))
+            os.remove("data/global_daily/{}".format(csv))
 
-    global_daily = Path("global_daily")
+    global_daily = Path("./data/global_daily")
 
     list_of_dicts = []
     for file in global_daily.glob("*data/.json"):
