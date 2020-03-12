@@ -167,6 +167,7 @@ def csvtojsonfunction(data, name):
 
 
 def get_data_from_all_to_json():
+    os.makedirs('global_daily')
     delglobal()
     if os.path.exists("totaldata.json"):
         os.remove("totaldata.json")
@@ -260,5 +261,3 @@ def get_data_from_all_to_json():
         file.write(json.dumps(master))
     delglobal()
 
-
-get_data_from_all_to_json()

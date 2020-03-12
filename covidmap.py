@@ -3,9 +3,12 @@ import json
 import datetime
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from collecter import csvtojson
+from collecter import csvtojson, get_data_from_all_to_json
 import requests
 
+if os.path.exists('global_daily'):
+    os.remove('global_daily')
+get_data_from_all_to_json()
 with open('totaldata.json', 'r') as file:
     global totaldatajson
     totaldatajson = json.load(file)
