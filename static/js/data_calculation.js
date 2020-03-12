@@ -30,8 +30,25 @@ async function global_numbers() {
         }
         globals_by_date[date]=({'Confirmed':totalconfirmed, 'Deaths':totaldeaths, 'Recovered':totalrecovered});
     }
-    console.log(globals_by_date);
 
 return globals_by_date;}
+
+async function dict_to_array(){
+    globaldict = await global_numbers();
+    confirmed = [];
+    deaths = [];
+    recovered = [];
+    dates = []
+    for (item in globaldict){
+        confirmed.push(globaldict[item]['Confirmed']);
+        deaths.push(globaldict[item]['Deaths']);
+        recovered.push(globaldict[item]['Recovered']);
+        dates.push(item)
+    }
+    // console.log(confirmed);
+    // console.log(deaths);
+    // console.log(recovered);
+    datalist =[confirmed, deaths, recovered, dates];
+return datalist}
 
 

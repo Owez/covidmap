@@ -6,6 +6,10 @@ from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson
 import requests
 
+with open('totaldata.json', 'r') as file:
+    global totaldatajson
+    totaldatajson = json.load(file)
+
 # CONFIG #
 
 
@@ -59,19 +63,19 @@ class Node(db.Model):
         self.created = datetime.datetime.utcnow()
 
 
-class Newslet(db.Model):
-    """A single found article"""
-
-    id = db.Column(db.String(), primary_key=True)
-    title = db.Column(db.String())
-    lead_paragraph = db.Column(db.String())
-    created = db.Column(db.DateTime)
-
-    def __init__(self, id: str, title: str, lead_paragraph: str):
-        self.id = id
-        self.title = title
-        self.lead_paragraph = lead_paragraph
-        self.created = datetime.datetime.now()
+# class Newslet(db.Model):
+#     """A single found article"""
+#
+#     id = db.Column(db.String(), primary_key=True)
+#     title = db.Column(db.String())
+#     lead_paragraph = db.Column(db.String())
+#     created = db.Column(db.DateTime)
+#
+#     def __init__(self, id: str, title: str, lead_paragraph: str):
+#         self.id = id
+#         self.title = title
+#         self.lead_paragraph = lead_paragraph
+#         self.created = datetime.datetime.now()
 
 
 # ROUTES #
@@ -79,7 +83,7 @@ class Newslet(db.Model):
 
 @app.route("/")
 def index():
-    return render_template("index.html", newslets=Newslet.query.all())
+    return render_template("index.html")
 
 
 @app.route("/data", methods=["GET"])
@@ -97,9 +101,7 @@ def passdata():
 
 @app.route("/totaldata", methods=["GET"])
 def totaldata():
-    with open("totaldata.json", "r") as file:
-        jsfile = json.load(file)
-        response = {"Success": "Data has been successfully obtained", "Data": jsfile}
+    response = {"Success": "Data has been successfully obtained", "Data": totaldatajson}
     return response, 200
 
 
