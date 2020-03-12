@@ -117,14 +117,16 @@ def accesskey():
 
 # UTILS #
 
+
 def setup_graph_data():
     """Makes graphdata.json and sets as global"""
-    
-    get_data_from_all_to_json() # gens graphdata.json
+
+    get_data_from_all_to_json()  # gens graphdata.json
 
     with open("graphdata.json", "r") as file:
         global graphdatajson
         graphdatajson = json.load(file)
+
 
 def pull_nytimes() -> bool:
     """Adds new nytimes stuff to database and returns if it was successful"""
@@ -190,7 +192,7 @@ def data_formatting():
 
 def get_coords():
     if os.path.exists("cords.json"):
-        print("Coords have already been gathered")
+        print("Coords have already been gathered, no need to fetch!")
     else:
         data = Node.query.all()
         countries = []
@@ -199,12 +201,13 @@ def get_coords():
             if row.country_name not in countries:
                 countries.append(row.country_name)
         for country in countries:
+            countryname = country
+
             if country == "Mainland China":
                 countryname = "China"
             elif country == "occupied Palestinian territory":
                 countryname = "Palestine"
-            else:
-                countryname = country
+
             response = requests.get(
                 "https://maps.googleapis.com/maps/api/geocode/json?address={}&key=AIzaSyB-2lC7PWWHcDvc6T6mtVdmXCzfGf_p0kA".format(
                     countryname
@@ -229,6 +232,8 @@ def get_coords():
         if row.country_name not in countries:
             countries.append(row.country_name)
     for country in countries:
+        countryname = country
+
         if country == "Mainland China":
             countryname = "China"
         elif country == "occupied Palestinian territory":
