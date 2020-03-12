@@ -104,7 +104,7 @@ def graphdata():
 
 @app.route("/coords", methods=["GET"])
 def passkey():
-    with open("cords.json", "r") as file:
+    with open("data/cords.json", "r") as file:
         response = {"Data": json.loads(file.read())}
         return response, 200
 
@@ -191,7 +191,7 @@ def data_formatting():
 
 
 def get_coords():
-    if os.path.exists("cords.json"):
+    if os.path.exists("data/cords.json"):
         print("Coords have already been gathered, no need to fetch!")
     else:
         data = Node.query.all()
@@ -222,7 +222,7 @@ def get_coords():
             }
             # print("Country: {}".format(country) + str(dt["results"][0]["geometry"]["location"]))
             # print(cordsdict)
-            with open("cords.json", "w") as file:
+            with open("data/cords.json", "w") as file:
                 file.write(json.dumps(cordsdict))
 
     data = Node.query.all()

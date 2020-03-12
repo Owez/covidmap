@@ -48,11 +48,11 @@ def get_most_recent():
 
 
 def returncsv():
-    with open("data.csv", "w") as file:
+    with open("data/data.csv", "w") as file:
         file.write(get_most_recent())
     pd.set_option("display.max_rows", None)
     df = pd.read_csv(
-        "./data.csv",
+        "data/data.csv",
         usecols=[
             "Country/Region",
             "Last Update",
@@ -116,7 +116,7 @@ def csvtojson():
             "Deaths": totaldeaths,
             "Recovered": totalrecoveries,
         }
-    with open("data.json", "w") as file:
+    with open("data/data.json", "w") as file:
         file.write(json.dumps(datadict, cls=DateTimeEncoder))
 
     data = json.dumps(datadict, cls=DateTimeEncoder)
@@ -167,10 +167,13 @@ def csvtojsonfunction(data, name):
 
 
 def get_data_from_all_to_json():
-    os.makedirs('global_daily')
+    try:
+        os.makedirs('global_daily')
+    except FileExistsError:
+        pass
     delglobal()
-    if os.path.exists("graphdata.json"):
-        os.remove("graphdata.json")
+    if os.path.exists("data/graphdata.json"):
+        os.remove("data/graphdata.json")
     url = "https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports"
     page = requests.get(url)
 
@@ -248,7 +251,7 @@ def get_data_from_all_to_json():
     global_daily = Path("global_daily")
 
     list_of_dicts = []
-    for file in global_daily.glob("*.json"):
+    for file in global_daily.glob("*data/.json"):
         with file.open() as fd:
             list_of_dicts.append(json.load(fd))
 
@@ -257,7 +260,6 @@ def get_data_from_all_to_json():
     for d in list_of_dicts:
         for key, value in d.items():
             master[key].append(value)
-    with open("graphdata.json", "w") as file:
+    with open("data/graphdata.json", "w") as file:
         file.write(json.dumps(master))
     delglobal()
-
