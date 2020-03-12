@@ -154,9 +154,6 @@ def populate_db():
     print("Loading graph data into RAM..")
     setup_graph_data()
 
-    print("Getting coords for map..")
-    get_coords()
-
     print("Populating database..")
     if os.path.exists("covidmap.db"):
         print("Database is already populated!")
@@ -169,6 +166,9 @@ def populate_db():
         new_node = Node(country_name, csv_data[country_name])
         db.session.add(new_node)
         db.session.commit()
+
+    print("Getting coords for map..")
+    get_coords()
 
     print("Adding newslets..")
 

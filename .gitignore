@@ -4,6 +4,7 @@
 
 # Other
 covidmap.db
+data/
 
 # Stuff that needs to be fixed
 data.csv
