@@ -6,10 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson, get_data_from_all_to_json
 import requests
 
-if os.path.exists('global_daily'):
-    os.remove('global_daily')
 get_data_from_all_to_json()
-with open('totaldata.json', 'r') as file:
+with open('data/totaldata.json', 'r') as file:
     global totaldatajson
     totaldatajson = json.load(file)
 
@@ -110,7 +108,7 @@ def totaldata():
 
 @app.route("/coords", methods=["GET"])
 def passkey():
-    with open("cords.json", "r") as file:
+    with open("data/cords.json", "r") as file:
         response = {"Data": json.loads(file.read())}
         return response, 200
 
@@ -187,7 +185,7 @@ def data_formatting():
 
 
 def get_coords():
-    if os.path.exists("cords.json"):
+    if os.path.exists("data/cords.json"):
         print("Coords have already been gathered")
     else:
         data = Node.query.all()
@@ -217,7 +215,7 @@ def get_coords():
             }
             # print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
             # print(cordsdict)
-            with open("cords.json", "w") as file:
+            with open("data/cords.json", "w") as file:
                 file.write(json.dumps(cordsdict))
 
     data = Node.query.all()
