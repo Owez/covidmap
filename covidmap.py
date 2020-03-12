@@ -119,11 +119,11 @@ def accesskey():
 
 
 def setup_graph_data():
-    """Makes graphdata.json and sets as global"""
+    """Makes data/graphdata.json and sets as global"""
 
     get_data_from_all_to_json()  # gens graphdata.json
 
-    with open("graphdata.json", "r") as file:
+    with open("data/graphdata.json", "r") as file:
         global graphdatajson
         graphdatajson = json.load(file)
 
