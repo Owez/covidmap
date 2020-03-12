@@ -256,8 +256,8 @@ def get_coords():
 
 
 if __name__ == "__main__":
-    populate_db()
     setup_graph_data()
+    populate_db()
     get_coords()
 
     app.run(debug=True)
