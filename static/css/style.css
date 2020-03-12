@@ -41,7 +41,7 @@ button {
     background-color: #e7e7e7;
     min-width: 7.5rem;
     width: calc(20rem + 15vw);
-    height: 65vh;
+    height: 100%;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     border-bottom-left-radius: 1rem;
