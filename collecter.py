@@ -248,10 +248,10 @@ def get_data_from_all_to_json():
         if csv.endswith(".csv"):
             os.remove("data/global_daily/{}".format(csv))
 
-    global_daily = Path("./data/global_daily")
+    global_daily = Path("./data/global_daily/")
 
     list_of_dicts = []
-    for file in global_daily.glob("*data/.json"):
+    for file in global_daily.glob("*.json"):
         with file.open() as fd:
             list_of_dicts.append(json.load(fd))
 
@@ -260,6 +260,7 @@ def get_data_from_all_to_json():
     for d in list_of_dicts:
         for key, value in d.items():
             master[key].append(value)
+
     with open("data/graphdata.json", "w") as file:
         file.write(json.dumps(master))
     delglobal()

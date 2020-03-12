@@ -104,7 +104,7 @@ def graphdata():
 
 @app.route("/coords", methods=["GET"])
 def passkey():
-    with open("data/cords.json", "r") as file:
+    with open("cords.json", "r") as file:
         response = {"Data": json.loads(file.read())}
         return response, 200
 
@@ -126,7 +126,6 @@ def setup_graph_data():
     with open("data/graphdata.json", "r") as file:
         global graphdatajson
         graphdatajson = json.load(file)
-
 
 def pull_nytimes() -> int:
     """Adds new nytimes stuff to database and returns status code"""
@@ -152,6 +151,12 @@ def pull_nytimes() -> int:
 def populate_db():
     """Top-level function for getting all csv data from github"""
 
+    print("Loading graph data into RAM..")
+    setup_graph_data()
+
+    print("Getting coords for map..")
+    get_coords()
+
     print("Populating database..")
     if os.path.exists("covidmap.db"):
         print("Database is already populated!")
@@ -170,7 +175,6 @@ def populate_db():
     nytimes_respcode = pull_nytimes()
     if nytimes_respcode != 200:
         print("Failed to add newslets, error code: '{nytimes_respcode}'!")
-
 
 def data_formatting():
     data = Node.query.all()
@@ -256,8 +260,6 @@ def get_coords():
 
 
 if __name__ == "__main__":
-    setup_graph_data()
     populate_db()
-    get_coords()
 
     app.run(debug=True)
