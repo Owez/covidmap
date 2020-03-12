@@ -58,6 +58,11 @@ def passkey():
         response = {'Data': json.loads(file.read())}
         return response, 200
 
+@app.route('/accesskey', methods=['GET'])
+def accesskey():
+    print(os.getenv('access_key'))
+    return {'key': os.environ['access_key']}
+
 # UTILS #
 
 def populate_db():
@@ -91,6 +96,7 @@ def data_formatting():
                     'deaths': row.deceased,
                     'recovered': row.recovered
                 }
+                print(datadict[country]['recovered'])
     return datadict
 
 def get_coords():
@@ -116,9 +122,9 @@ def get_coords():
             print(country)
             cordsdict[country] = {'Latitude': dt['results'][0]['geometry']['location']['lat'], 'Longitude': dt['results'][0]['geometry']['location']['lng']}
             #print('Country: {}'.format(country) + str(dt['results'][0]['geometry']['location']))
-        print(cordsdict)
-        with open('cords.json', 'w') as file:
-            file.write(json.dumps(cordsdict))
+            print(cordsdict)
+            with open('cords.json', 'w') as file:
+                file.write(json.dumps(cordsdict))
 
     data = Node.query.all()
     countries = []

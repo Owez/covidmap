@@ -12,6 +12,7 @@
  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
    crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <title>CovidMap</title>
 </head>
 
@@ -38,12 +39,14 @@
             <div class="mapgraph-flex">
                 <div class="sidebar-box">
                     <div class="graph-box">
-  <div class="graph-outer" id="mapid"></div> <!--This is the map-->
-  <p class="graph-title"><span class="graph-title-span">Map title here</span></p>
-</div>
+                        <div class="graph-outer" id="mapid"></div> <!--This is the map-->
+                            <p class="graph-title"><span class="graph-title-span">Covid-19</span></p>
+                        </div>
                 </div>
                 <div class="sidebar-box">
                     <h2>Graph here</h2>
+                    <canvas id="myChart" class="graph-outer">
+                    </canvas>
                 </div>
             </div>
         </div>
@@ -55,5 +58,7 @@
     </div>
 </body>
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script type="text/javascript" src="./static/js/charts.js"></script>
+<script type="text/javascript" src="./static/js/data_calculation.js"></script>
 
 </html>

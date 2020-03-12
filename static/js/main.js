@@ -3,10 +3,13 @@ function zoomfactor(zoom){
     let endzoom = zoom * factor;
 return endzoom;}
 
-const accesskey = 'pk.eyJ1Ijoic25lYWt5a2l3aSIsImEiOiJjazduZWRmc3EwMjMwM2R0N3J0amZoc3NlIn0.18IXK7pkL0TIsvOKGSJaPQ';
+
+
+
+
 
 var mymap = L.map('mapid').setView([41.153332, 20.168331], 3);
-
+const accesskey = 'pk.eyJ1Ijoic25lYWt5a2l3aSIsImEiOiJjazduZWRmc3EwMjMwM2R0N3J0amZoc3NlIn0.18IXK7pkL0TIsvOKGSJaPQ'
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + accesskey, {
     attribution: 'CovidMap ©',
     maxZoom: 18,
@@ -15,6 +18,9 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: accesskey
 }).addTo(mymap);
+
+get_coords();
+
 
 async function get_coords(){
     let url = '/coords';
@@ -33,24 +39,17 @@ async function get_coords(){
         console.log(data);
         for (country in data['Data']){
            // console.log('Country: ' + country + ' Latitude: ' + data['Data'][country]['Latitude'] + ' Longitude: ' + data['Data'][country]['Longitude']);
-              areascheme(parseInt(data['Data'][country]['Latitude']), parseInt(data['Data'][country]['Longitude']));
+              areascheme(parseInt(data['Data'][country]['Latitude']), parseInt(data['Data'][country]['Longitude']), country);
         }
         return data}
 
-function areascheme(lat, lng) {
+function areascheme(lat, lng, country) {
     var confirmed = L.circle([lat, lng], {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: zoomfactor(500)
     }).addTo(mymap);
+    confirmed.bindPopup(country)
 }
 
-function calculate(){
-    let countrycoords = get_coords();
-    for (country in countrycoords['Data']){
-        console.log(data['Data'][country]);
-    }
-}
-
-get_coords();
