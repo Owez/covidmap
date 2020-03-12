@@ -31,6 +31,7 @@
         <div class="newswire-flex">
             <div class="sidebar-box">
                 <h2>Newswire</h2>
+                {% if newslets %}
                 {% for newslet in newslets %}
                 <div class="newslet">
                     <a href="{{ newslet.id }}">
@@ -40,19 +41,22 @@
                     </a>
                 </div>
                 {% endfor %}
+                {% else %}
+                <div class="newslet">
+                    <h3>No news available!</h3>
+                    <p><i>This is most likely a website error, please contact the developers of CovidMap!</i></p>
+                </div>
+                {% endif %}
             </div>
             <div class="mapgraph-flex">
                 <div class="sidebar-box">
-                    <div class="graph-box">
-                        <div class="graph-outer" id="mapid"></div>
-                        <!--This is the map-->
-                        <p class="graph-title"><span class="graph-title-span">Covid-19</span></p>
-                    </div>
+                    <div class="graph-outer" id="mapid"></div>
+                    <p class="graph-title"><span class="graph-title-span">Covid-19</span></p>
                 </div>
                 <div class="sidebar-box">
-                    <h2>Graph here</h2>
                     <canvas id="myChart" class="graph-outer">
                     </canvas>
+                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased</span></p>
                 </div>
             </div>
         </div>
