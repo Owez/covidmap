@@ -169,8 +169,8 @@ def csvtojsonfunction(data, name):
 def get_data_from_all_to_json():
     os.makedirs('global_daily')
     delglobal()
-    if os.path.exists("totaldata.json"):
-        os.remove("totaldata.json")
+    if os.path.exists("graphdata.json"):
+        os.remove("graphdata.json")
     url = "https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports"
     page = requests.get(url)
 
@@ -257,7 +257,7 @@ def get_data_from_all_to_json():
     for d in list_of_dicts:
         for key, value in d.items():
             master[key].append(value)
-    with open("totaldata.json", "w") as file:
+    with open("graphdata.json", "w") as file:
         file.write(json.dumps(master))
     delglobal()
 
