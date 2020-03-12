@@ -28,6 +28,17 @@
     </div>
     <div class="container">
         <div class="newswire-flex">
+            <div class="mapgraph-flex">
+                <div class="sidebar-box">
+                    <div class="graph-outer" id="mapid"></div>
+                    <p class="graph-title"><span class="graph-title-span">Covid-19</span></p>
+                </div>
+                <div class="sidebar-box">
+                    <canvas id="myChart" class="graph-outer">
+                    </canvas>
+                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased</span></p>
+                </div>
+            </div>
             <div class="sidebar-box">
                 <h2>Newswire</h2>
                 {% if newslets %}
@@ -46,17 +57,6 @@
                     <p><i>This is most likely a website error, please contact the developers of CovidMap!</i></p>
                 </div>
                 {% endif %}
-            </div>
-            <div class="mapgraph-flex">
-                <div class="sidebar-box">
-                    <div class="graph-outer" id="mapid"></div>
-                    <p class="graph-title"><span class="graph-title-span">Covid-19</span></p>
-                </div>
-                <div class="sidebar-box">
-                    <canvas id="myChart" class="graph-outer">
-                    </canvas>
-                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased</span></p>
-                </div>
             </div>
         </div>
     </div>
