@@ -294,5 +294,3 @@ def daily_province():
                 provincedict[country['Country/Region']] ={country['Province/State']: {'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}}
     with open('data/daily_province.json', 'w') as jf:
         jf.write(json.dumps(provincedict))
-
-daily_province()
