@@ -146,7 +146,6 @@ def accesskey():
 def province_data_pass():
     try:
         response = {
-            "Success": "Data has been successfully obtained",
             "Data": province_from_db_to_json(),
         }
         return response, 200
@@ -237,13 +236,16 @@ def province_to_db():
 
 def province_from_db_to_json():
     data = Province.query.all()
-    provinces = [row.province_name for row in data]
+    provinces = []
+    for row in data:
+        if row.province_name not in provinces:
+            provinces.append(row.province_name)
     province_data_dict = {}
     for province in provinces:
         for row in data:
             if row.province_name == province:
                 province_data_dict[province] = {'latitude': row.lat_coord, 'longitude': row.long_coord,'confirmed': row.confirmed}
-    return json.dumps(province_data_dict)
+    return province_data_dict
 
 if __name__ == "__main__":
     populate_db()

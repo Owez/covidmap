@@ -1,5 +1,5 @@
 function zoomfactor(zoom){
-    const factor = 100;
+    const factor = 13;
     let endzoom = zoom * factor;
 return endzoom;}
 
@@ -20,36 +20,23 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(mymap);
 
 
-
-// async function get_coords(){
-//     let url = '/coords';
-//     const response = await fetch(url, {
-//           method: 'GET',
-//           mode: 'cors',
-//           cache: 'no-cache',
-//           credentials: 'same-origin',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           redirect: 'follow',
-//           referrerPolicy: 'no-referrer',
-//         });
-//         var data = await response.json();
-//         console.log(data);
-//         for (country in data['Data']){
-           //console.log('Country: ' + country + ' Latitude: ' + data['Data'][country]['Latitude'] + ' Longitude: ' + data['Data'][country]['Longitude']);
-              // areascheme(parseInt(data['Data'][country]['Latitude']), parseInt(data['Data'][country]['Longitude']), country);
-        // }
-        // return data}
-//
 function areascheme(lat, lng, province, spot_size) {
+    console.log(spot_size)
     var confirmed = L.circle([lat, lng], {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: zoomfactor(spot_size)
     }).addTo(mymap);
-    confirmed.bindPopup(province)
+    var text2 = (`${province} | Confirmed: ${spot_size}`);
+    let hovertext = confirmed.bindPopup(text2);
+    hovertext.on('mouseover', function (e) {
+    this.openPopup();
+    });
+    hovertext.on('mouseout', function (e) {
+    this.closePopup();
+    });
+
 }
 
 async function province_data_grab(){
@@ -65,11 +52,13 @@ async function province_data_grab(){
           redirect: 'follow',
           referrerPolicy: 'no-referrer',
         });
-        var data = await response.json();
-        console.log(data);
-        for (province in data['Data']){
-              console.log('Province: ' + province + ' Latitude: ' + data['Data'][province]['latitude'] + ' Longitude: ' + data['Data'][province]['longitude'], 'Confirmed: ' +  data['Data'][province]['confirmed']);
-             // areascheme(data['Data'][province]['latitude'], data['Data'][province]['longitude'], country, data['Data'][province]['confirmed']);
-        }
-}
+        let data = await response.json();
+        //let data = dt['Data'];
+        //console.log(dt)
+        for (province in data['Data']) {
+           // console.log(data['Data'][province]['confirmed']);
+             areascheme(data['Data'][province]['latitude'], data['Data'][province]['longitude'], province,  data['Data'][province]['confirmed']);
+            //}
+        }}
 
+province_data_grab();
