@@ -3,7 +3,7 @@ import json
 import datetime
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from collecter import csvtojson, get_data_from_all_to_json
+from collecter import csvtojson, get_data_from_all_to_json, daily_province
 import requests
 
 print("Loading graph data into ram")
@@ -209,7 +209,6 @@ def data_formatting():
                     "deaths": row.deceased,
                     "recovered": row.recovered,
                 }
-            # print(datadict[country]["recovered"])
     return datadict
 
 
@@ -237,14 +236,10 @@ def get_coords():
                 )
             )
             dt = json.loads(response.text)
-            # print(dt)
-            # print(country)
             cordsdict[country] = {
                 "Latitude": dt["results"][0]["geometry"]["location"]["lat"],
                 "Longitude": dt["results"][0]["geometry"]["location"]["lng"],
             }
-            # print("Country: {}".format(country) + str(dt["results"][0]["geometry"]["location"]))
-            # print(cordsdict)
             with open("data/cords.json", "w") as file:
                 file.write(json.dumps(cordsdict))
 
@@ -256,7 +251,6 @@ def get_coords():
             countries.append(row.country_name)
     for country in countries:
         countryname = country
-
         if country == "Mainland China":
             countryname = "China"
         elif country == "occupied Palestinian territory":
@@ -267,14 +261,17 @@ def get_coords():
             )
         )
         dt = json.loads(response.text)
-        # print(dt)
-        # print(country)
         cordsdict[country] = {
             "Latitude": dt["results"][0]["geometry"]["location"]["lat"],
             "Longitude": dt["results"][0]["geometry"]["location"]["lng"],
         }
-        # print("Country: {}".format(country) + str(dt["results"][0]["geometry"]["location"]))
-    # print(cordsdict)
+
+def province_to_db():
+    daily_province()
+    with open('data/daily_province.json', 'r') as jf:
+        data = json.load(jf)
+        for province in data:
+            new_province = Province(province, province['confirmed'], province['latitude'], province['longitude'])
 
 
 if __name__ == "__main__":

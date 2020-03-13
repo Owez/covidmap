@@ -53,7 +53,7 @@ def returncsv():
     pd.set_option("display.max_rows", None)
     df = pd.read_csv(
         "data/data.csv",
-        usecols=[
+        usecols=["Province/State",
             "Country/Region",
             "Last Update",
             "Confirmed",
@@ -264,3 +264,32 @@ def get_data_from_all_to_json():
     with open("data/graphdata.json", "w") as file:
         file.write(json.dumps(master))
     delglobal()
+
+def returnpartialcsv():
+    with open("data/data.csv", "w") as file:
+        file.write(get_most_recent())
+    pd.set_option("display.max_rows", None)
+    df = pd.read_csv(
+        "data/data.csv",
+        usecols=["Province/State",
+            'Country/Region',
+            "Confirmed",
+            "Latitude",
+            "Longitude",
+        ],
+    )
+    return df
+def daily_province():
+    get_most_recent()
+    data = returnpartialcsv()
+    data.to_json('data/daily_province.json', orient='table')
+    provincedict = {}
+    with open('data/daily_province.json', 'r') as jf:
+        jf = json.load(jf)
+        for country in jf['data']:
+            if not(country['Province/State']):
+                country['Province/State'] = country['Country/Region']
+                provincedict[country['Province/State']] = {'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}
+    with open('data/daily_province.json', 'w') as jf:
+        jf.write(json.dumps(provincedict))
+
