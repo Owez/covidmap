@@ -1,6 +1,11 @@
 function zoomfactor(zoom){
-    const factor = 13;
-    let endzoom = zoom * factor;
+    let factor = 13;
+    if (zoom <= 15) {
+        var endzoom = zoom * 25;
+    }
+    else {
+        var endzoom = zoom * factor;
+    }
 return endzoom;}
 
 
