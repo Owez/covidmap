@@ -206,7 +206,7 @@ def get_data_from_all_to_json():
     count = 0
     for name in csvnames:
         dtdict = {}
-        print(name)
+        #print(name)
         lastelementurl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{}".format(
             name
         )
@@ -229,7 +229,7 @@ def get_data_from_all_to_json():
         # print(df)
 
     csvfiles = os.listdir("data/global_daily")
-    print(csvfiles)
+    #print(csvfiles)
     for file in csvfiles:
         df = pd.read_csv(
             f"data/global_daily/{file}",
@@ -241,7 +241,7 @@ def get_data_from_all_to_json():
                 "Recovered",
             ],
         )
-        print(f"Converting: {file} to json")
+        #print(f"Converting: {file} to json")
         csvtojsonfunction(df, file)
     csvfiles = os.listdir("data/global_daily")
     for csv in csvfiles:
@@ -289,8 +289,11 @@ def daily_province():
         for country in jf['data']:
             if not(country['Province/State']):
                 country['Province/State'] = country['Country/Region']
-                provincedict[country['Country/Region']] ={country['Province/State']: {'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}}
+                provincedict[country['Province/State']] ={'country':country['Country/Region'] ,'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}
+
             else:
-                provincedict[country['Country/Region']] ={country['Province/State']: {'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}}
+                provincedict[country['Province/State']] ={'country':country['Country/Region'] ,'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}
     with open('data/daily_province.json', 'w') as jf:
         jf.write(json.dumps(provincedict))
+
+daily_province()

@@ -19,11 +19,41 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: accesskey
 }).addTo(mymap);
 
-get_coords();
 
 
-async function get_coords(){
-    let url = '/coords';
+// async function get_coords(){
+//     let url = '/coords';
+//     const response = await fetch(url, {
+//           method: 'GET',
+//           mode: 'cors',
+//           cache: 'no-cache',
+//           credentials: 'same-origin',
+//           headers: {
+//             'Content-Type': 'application/json'
+//           },
+//           redirect: 'follow',
+//           referrerPolicy: 'no-referrer',
+//         });
+//         var data = await response.json();
+//         console.log(data);
+//         for (country in data['Data']){
+           //console.log('Country: ' + country + ' Latitude: ' + data['Data'][country]['Latitude'] + ' Longitude: ' + data['Data'][country]['Longitude']);
+              // areascheme(parseInt(data['Data'][country]['Latitude']), parseInt(data['Data'][country]['Longitude']), country);
+        // }
+        // return data}
+//
+function areascheme(lat, lng, province, spot_size) {
+    var confirmed = L.circle([lat, lng], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: zoomfactor(spot_size)
+    }).addTo(mymap);
+    confirmed.bindPopup(province)
+}
+
+async function province_data_grab(){
+        let url = '/provincedata';
     const response = await fetch(url, {
           method: 'GET',
           mode: 'cors',
@@ -37,19 +67,9 @@ async function get_coords(){
         });
         var data = await response.json();
         console.log(data);
-        for (country in data['Data']){
-           // console.log('Country: ' + country + ' Latitude: ' + data['Data'][country]['Latitude'] + ' Longitude: ' + data['Data'][country]['Longitude']);
-              areascheme(parseInt(data['Data'][country]['Latitude']), parseInt(data['Data'][country]['Longitude']), country);
+        for (province in data['Data']){
+              console.log('Province: ' + province + ' Latitude: ' + data['Data'][province]['latitude'] + ' Longitude: ' + data['Data'][province]['longitude'], 'Confirmed: ' +  data['Data'][province]['confirmed']);
+             // areascheme(data['Data'][province]['latitude'], data['Data'][province]['longitude'], country, data['Data'][province]['confirmed']);
         }
-        return data}
-
-function areascheme(lat, lng, country) {
-    var confirmed = L.circle([lat, lng], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: zoomfactor(500)
-    }).addTo(mymap);
-    confirmed.bindPopup(country)
 }
 

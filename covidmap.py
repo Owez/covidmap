@@ -53,7 +53,6 @@ class Country(db.Model):
     confirmed = db.Column(db.Integer)  # not used atm
     recovered = db.Column(db.Integer)  # not used atm
     deceased = db.Column(db.Integer)  # not used atm
-    provinces = db.relationship("Province", backref="country", lazy=True)
     created = db.Column(db.DateTime)
 
     def __init__(self, country_name: str, items: dict):
@@ -75,7 +74,6 @@ class Province(db.Model):
     lat_coord = db.Column(db.String(64))
     long_coord = db.Column(db.String(64))
     created = db.Column(db.DateTime)
-    country_id = db.Column(db.Integer, db.ForeignKey("country.id"), nullable=False)
 
     def __init__(self, province_name: str, confirmed: int, coords: (str, str)):
         self.province_name = province_name
@@ -143,6 +141,18 @@ def accesskey():
     # print(os.getenv("access_key"))
     return {"key": os.environ["access_key"]}
 
+@app.route('/provincedata', methods=['GET'])
+def province_data_pass():
+    try:
+        response = {
+            "Success": "Data has been successfully obtained",
+            "Data": province_from_db_to_json(),
+        }
+        return response, 200
+    except Exception as e:
+        print(str(e))
+        response = {"Error": str(e)}
+        return response, 400
 
 # UTILS #
 
@@ -176,16 +186,16 @@ def populate_db():
         print("Database is already populated!")
         return
 
+
     print("Adding stats..")
     db.create_all()
+    print('Adding provinces..')
+    province_to_db()
     csv_data = json.loads(csvtojson())
     for country_name in csv_data:
         new_country = Country(country_name, csv_data[country_name])
         db.session.add(new_country)
         db.session.commit()
-
-    print("Getting coords for map..")
-    get_coords()
 
     print("Adding newslets..")
 
@@ -211,62 +221,6 @@ def data_formatting():
                 }
     return datadict
 
-
-def get_coords():
-    if os.path.exists("data/cords.json"):
-        print("Coords have already been gathered, no need to fetch!")
-    else:
-        data = Country.query.all()
-        countries = []
-        cordsdict = {}
-        for row in data:
-            if row.country_name not in countries:
-                countries.append(row.country_name)
-        for country in countries:
-            countryname = country
-
-            if country == "Mainland China":
-                countryname = "China"
-            elif country == "occupied Palestinian territory":
-                countryname = "Palestine"
-
-            response = requests.get(
-                "https://maps.googleapis.com/maps/api/geocode/json?address={}&key=AIzaSyB-2lC7PWWHcDvc6T6mtVdmXCzfGf_p0kA".format(
-                    countryname
-                )
-            )
-            dt = json.loads(response.text)
-            cordsdict[country] = {
-                "Latitude": dt["results"][0]["geometry"]["location"]["lat"],
-                "Longitude": dt["results"][0]["geometry"]["location"]["lng"],
-            }
-            with open("data/cords.json", "w") as file:
-                file.write(json.dumps(cordsdict))
-
-    data = country.query.all()
-    countries = []
-    cordsdict = {}
-    for row in data:
-        if row.country_name not in countries:
-            countries.append(row.country_name)
-    for country in countries:
-        countryname = country
-        if country == "Mainland China":
-            countryname = "China"
-        elif country == "occupied Palestinian territory":
-            countryname = "Palestine"
-        response = requests.get(
-            "https://maps.googleapis.com/maps/api/geocode/json?address={}&key=AIzaSyB-2lC7PWWHcDvc6T6mtVdmXCzfGf_p0kA".format(
-                countryname
-            )
-        )
-        dt = json.loads(response.text)
-        cordsdict[country] = {
-            "Latitude": dt["results"][0]["geometry"]["location"]["lat"],
-            "Longitude": dt["results"][0]["geometry"]["location"]["lng"],
-        }
-
-
 def province_to_db():
     daily_province()
     with open("data/daily_province.json", "r") as jf:
@@ -274,10 +228,23 @@ def province_to_db():
         for province in data:
             new_province = Province(
                 province,
-                province["confirmed"],
-                (province["latitude"], province["longitude"]),
+                data[province]["confirmed"],
+                (data[province]["latitude"], data[province]["longitude"]),
             )
 
+def province_from_db_to_json():
+    data = Province.query.all()
+    provinces = [""]
+    for row in data:
+        print(row.province_name)
+        provinces.append(row.province_name)
+    province_data_dict = {}
+    print(provinces)
+    for province in provinces:
+        for row in data:
+            if row.province_name == province:
+                province_data_dict[province] = {'latitude': row.lat_coord, 'longitude': row.long_coord,'confirmed': row.confirmed}
+    return json.dumps(province_data_dict)
 
 if __name__ == "__main__":
     populate_db()
