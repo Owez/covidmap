@@ -289,9 +289,9 @@ def daily_province():
         for country in jf['data']:
             if not(country['Province/State']):
                 country['Province/State'] = country['Country/Region']
-                provincedict[country['Province/State']] = {'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}
+                provincedict[country['Country/Region']] ={country['Province/State']: {'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}}
             else:
-                provincedict[country['Province/State']] = {'latitude': country['Latitude'],'longitude': country['Longitude'],'confirmed': country['Confirmed']}
+                provincedict[country['Country/Region']] ={country['Province/State']: {'latitude': country['Latitude'], 'longitude': country['Longitude'], 'confirmed': country['Confirmed']}}
     with open('data/daily_province.json', 'w') as jf:
         jf.write(json.dumps(provincedict))
 
