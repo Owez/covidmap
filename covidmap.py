@@ -122,6 +122,7 @@ def passdata():
 @app.route("/graphdata", methods=["GET"])
 def graphdata():
     with open("data/graphdata.json", "r") as file:
+        province_from_db_to_json()
         response = {
             "Success": "Data has been successfully obtained",
             "Data": json.load(file),
@@ -201,7 +202,7 @@ def populate_db():
 
     nytimes_respcode = pull_nytimes()
     if nytimes_respcode != 200:
-        print("Failed to add newslets, error code: '{nytimes_respcode}'!")
+        print(f"Failed to add newslets, error code: '{nytimes_respcode}'!")
 
 
 def data_formatting():
@@ -231,15 +232,13 @@ def province_to_db():
                 data[province]["confirmed"],
                 (data[province]["latitude"], data[province]["longitude"]),
             )
+            db.session.add(new_province)
+        db.session.commit()
 
 def province_from_db_to_json():
     data = Province.query.all()
-    provinces = [""]
-    for row in data:
-        print(row.province_name)
-        provinces.append(row.province_name)
+    provinces = [row.province_name for row in data]
     province_data_dict = {}
-    print(provinces)
     for province in provinces:
         for row in data:
             if row.province_name == province:
