@@ -6,8 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson, get_data_from_all_to_json, daily_province
 import requests
 
-print("Loading graph data into ram")
-get_data_from_all_to_json()  # gens graphdata.json
+print("Loading graph data")
+get_data_from_all_to_json()
 
 
 # CONFIG #
@@ -80,8 +80,8 @@ class Province(db.Model):
     def __init__(self, province_name: str, confirmed: int, coords: (str, str)):
         self.province_name = province_name
         self.confirmed = confirmed
-        self.long_coord = coords[0]
-        self.lat_coord = coords[1]
+        self.lat_coord = coords[0]
+        self.long_coord = coords[1]
         self.created = datetime.datetime.utcnow()
 
 
@@ -266,12 +266,17 @@ def get_coords():
             "Longitude": dt["results"][0]["geometry"]["location"]["lng"],
         }
 
+
 def province_to_db():
     daily_province()
-    with open('data/daily_province.json', 'r') as jf:
+    with open("data/daily_province.json", "r") as jf:
         data = json.load(jf)
         for province in data:
-            new_province = Province(province, province['confirmed'], province['latitude'], province['longitude'])
+            new_province = Province(
+                province,
+                province["confirmed"],
+                (province["latitude"], province["longitude"]),
+            )
 
 
 if __name__ == "__main__":
