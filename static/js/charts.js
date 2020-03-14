@@ -13,7 +13,7 @@ function generatedatelist(datelist){
             newlist.push("")
         }
     }
-    // console.log(newlist);
+    console.log(newlist);
     return newlist;}
 
 
@@ -54,7 +54,7 @@ async function chartinit(){
       };
 
     var casedata = {
-      labels: generatedatelist(dates),
+      labels: dates,
       datasets: [confirmed, recovered, deaths]
     };
 
