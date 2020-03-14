@@ -1,7 +1,7 @@
 body {
     font-family: 'Inter', sans-serif;
     font-family: 'Open Sans', sans-serif;
-    background-color: #f3f3f3;
+    background: url(../img/jupiter.svg);
     margin: 0;
     padding: 0;
     color: #3f3f3f;
@@ -66,6 +66,7 @@ body {
     text-align: right;
     font-size: small;
     margin-top: 0;
+    margin-bottom: 2.5rem;
 }
 
 .graph-title-span {
