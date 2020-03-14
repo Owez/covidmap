@@ -8,7 +8,7 @@ while True:
         print(f"Hour {hour}, resetting..")
 
     proc = subprocess.Popen(["python3", "covidmap.py"])
-    time.sleep(60)
+    time.sleep(10800)
     proc.terminate()
 
     hour += 3
