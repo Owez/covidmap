@@ -1,14 +1,14 @@
 body {
     font-family: 'Inter', sans-serif;
     font-family: 'Open Sans', sans-serif;
-    background-color: #f3f3f3;
+    background: url(../img/jupiter.svg);
     margin: 0;
     padding: 0;
     color: #3f3f3f;
     overflow-x: hidden;
 }
 
-button {
+.navbutton {
     border: 1px solid #f3f3f3;
     text-decoration: none;
     padding: 0.5rem;
@@ -22,7 +22,7 @@ button {
     padding-top: 1rem;
     padding-bottom: 1rem;
     height: calc(5vh + 2rem);
-    width: 100%;
+    width: 100vw;
     background: rgb(2, 0, 36);
     background: linear-gradient(57deg, rgba(59, 172, 224, 1) 0%, rgba(14, 186, 152, 1) 100%);
     display: flex;
@@ -66,6 +66,7 @@ button {
     text-align: right;
     font-size: small;
     margin-top: 0;
+    margin-bottom: 2.5rem;
 }
 
 .graph-title-span {
