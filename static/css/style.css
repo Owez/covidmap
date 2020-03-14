@@ -134,3 +134,21 @@ a.nohighlight:link {
     border-bottom-left-radius: 10rem;
     border-bottom-right-radius: 10rem;
 }
+
+.centerflex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.folder {
+    margin-top: 2.5rem;
+    width: 45%;
+    height: auto;
+}
+
+.minicenter {
+    font-size: smaller;
+    text-align: center;
+    margin-top: 0;
+}
