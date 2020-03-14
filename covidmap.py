@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from collecter import csvtojson, get_data_from_all_to_json, daily_province
 import requests
 
-print("Loading graph data")
+print("Loading graph data..")
 get_data_from_all_to_json()
 
 
@@ -142,7 +142,8 @@ def accesskey():
     # print(os.getenv("access_key"))
     return {"key": os.environ["access_key"]}
 
-@app.route('/provincedata', methods=['GET'])
+
+@app.route("/provincedata", methods=["GET"])
 def province_data_pass():
     try:
         response = {
@@ -155,11 +156,14 @@ def province_data_pass():
         response = {"Error": str(e)}
         return response, 400
 
+
 # UTILS #
 
 
 def pull_nytimes() -> int:
     """Adds new nytimes stuff to database and returns status code"""
+
+    print("Getting newslets..")
 
     search = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=coronavirus&api-key={config.NYTIMES_KEY}"
     resp = requests.get(search)
@@ -182,15 +186,21 @@ def pull_nytimes() -> int:
 def populate_db():
     """Top-level function for getting all csv data from github"""
 
-    print("Populating database..")
-    if os.path.exists("covidmap.db"):
-        print("Database is already populated!")
-        return
+    dbpath = "covidmap.db"
 
+    if os.path.exists(dbpath):
+        os.remove(dbpath) # delete old db
 
     print("Adding stats..")
     db.create_all()
-    print('Adding provinces..')
+
+    print("Adding newslets..")
+
+    nytimes_respcode = pull_nytimes()
+    if nytimes_respcode != 200:
+        print(f"Failed to add newslets, error code: '{nytimes_respcode}'!")
+
+    print("Adding provinces..")
     province_to_db()
     csv_data = json.loads(csvtojson())
     for country_name in csv_data:
@@ -198,11 +208,7 @@ def populate_db():
         db.session.add(new_country)
         db.session.commit()
 
-    print("Adding newslets..")
 
-    nytimes_respcode = pull_nytimes()
-    if nytimes_respcode != 200:
-        print(f"Failed to add newslets, error code: '{nytimes_respcode}'!")
 
 
 def data_formatting():
@@ -222,6 +228,7 @@ def data_formatting():
                 }
     return datadict
 
+
 def province_to_db():
     daily_province()
     with open("data/daily_province.json", "r") as jf:
@@ -235,6 +242,7 @@ def province_to_db():
             db.session.add(new_province)
         db.session.commit()
 
+
 def province_from_db_to_json():
     data = Province.query.all()
     provinces = [row.province_name for row in data]
@@ -242,8 +250,13 @@ def province_from_db_to_json():
     for province in provinces:
         for row in data:
             if row.province_name == province:
-                province_data_dict[province] = {'latitude': row.lat_coord, 'longitude': row.long_coord,'confirmed': row.confirmed}
+                province_data_dict[province] = {
+                    "latitude": row.lat_coord,
+                    "longitude": row.long_coord,
+                    "confirmed": row.confirmed,
+                }
     return json.dumps(province_data_dict)
+
 
 if __name__ == "__main__":
     populate_db()
