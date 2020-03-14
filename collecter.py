@@ -48,7 +48,7 @@ def get_most_recent():
 
 
 def returncsv():
-    with open("data/data.csv", "w") as file:
+    with open("data/data.csv", "w", encoding='utf-8') as file:
         file.write(get_most_recent())
     pd.set_option("display.max_rows", None)
     df = pd.read_csv(
@@ -266,7 +266,7 @@ def get_data_from_all_to_json():
     delglobal()
 
 def returnpartialcsv():
-    with open("data/data.csv", "w") as file:
+    with open("data/data.csv", "w", encoding="utf-8") as file:
         file.write(get_most_recent())
     pd.set_option("display.max_rows", None)
     df = pd.read_csv(
@@ -276,6 +276,8 @@ def returnpartialcsv():
             "Confirmed",
             "Latitude",
             "Longitude",
+            'Recovered',
+            'Deaths'
         ],
     )
     return df

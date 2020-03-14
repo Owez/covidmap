@@ -1,3 +1,7 @@
+
+
+
+
 function zoomfactor(zoom){
     let factor = 13;
     if (zoom >= 50000) {
@@ -7,10 +11,6 @@ function zoomfactor(zoom){
         var endzoom = zoom * 25;
     }
 return endzoom;}
-
-
-
-
 
 
 var mymap = L.map('mapid').setView([41.153332, 20.168331], 3);
@@ -26,7 +26,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 
 function areascheme(lat, lng, province, spot_size) {
-    console.log(spot_size)
+    //console.log(spot_size)
     var confirmed = L.circle([lat, lng], {
         color: 'red',
         fillColor: '#f03',
@@ -58,8 +58,6 @@ async function province_data_grab(){
           referrerPolicy: 'no-referrer',
         });
         let data = await response.json();
-        //let data = dt['Data'];
-        //console.log(dt)
         for (province in data['Data']) {
            // console.log(data['Data'][province]['confirmed']);
              areascheme(data['Data'][province]['latitude'], data['Data'][province]['longitude'], province,  data['Data'][province]['confirmed']);
