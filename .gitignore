@@ -7,6 +7,10 @@ covidmap.db
 data/
 pw.env
 
+# nohup
+nohup_pid.txt
+nohup.out
+
 # Stuff that needs to be fixed
 data.csv
 data.json
