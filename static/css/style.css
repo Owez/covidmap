@@ -123,3 +123,14 @@ button {
     border: 0;
 }
 
+a.nohighlight:link {
+    text-decoration: none;
+    color: #3f3f3f;
+}
+
+.newsbox {
+    overflow-y: hidden;
+    max-height: 100rem;
+    border-bottom-left-radius: 10rem;
+    border-bottom-right-radius: 10rem;
+}

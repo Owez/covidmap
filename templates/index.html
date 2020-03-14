@@ -42,13 +42,13 @@
                     <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased</span></p>
                 </div>
             </div>
-            <div class="sidebar-box">
+            <div class="sidebar-box newsbox">
                 <h2>Newswire</h2>
                 {% if newslets %}
                 {% for newslet in newslets %}
                 <div class="newslet">
-                    <a href="{{ newslet.id }}">
-                        <h3>{{ newslet.title }}</h3>
+                    <a href="{{ newslet.id }}" class="nohighlight">
+                        <h3><b>{{ newslet.title }}</b></h3>
                         <p>{{ newslet.lead_paragraph }}</p>
                         <p class="newslet-date">{{ newslet.created }}</p>
                     </a>

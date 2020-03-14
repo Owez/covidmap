@@ -103,7 +103,7 @@ class Newslet(db.Model):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", newslets=Newslet.query.all())
 
 
 @app.route("/data", methods=["GET"])
@@ -164,7 +164,7 @@ def pull_nytimes() -> int:
 
     print("Getting newslets..")
 
-    search = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=coronavirus&api-key={config.NYTIMES_KEY}"
+    search = f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q=coronavirus&begindate=20200301&api-key={config.NYTIMES_KEY}"
     resp = requests.get(search)
 
     if resp.status_code != 200:
@@ -177,7 +177,8 @@ def pull_nytimes() -> int:
             )
 
             db.session.add(new_newslet)
-            db.session.commit()
+    
+    db.session.commit()
 
     return resp.status_code
 
