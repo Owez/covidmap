@@ -127,7 +127,6 @@ def passdata():
 @app.route("/graphdata", methods=["GET"])
 def graphdata():
     with open("data/graphdata.json", "r") as file:
-        province_from_db_to_json()
         response = {
             "Success": "Data has been successfully obtained",
             "Data": json.load(file),
@@ -267,4 +266,4 @@ def province_from_db_to_json():
 if __name__ == "__main__":
     populate_db()
 
-    app.run(debug=True)
+    app.run(debug=False)

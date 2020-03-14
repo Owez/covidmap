@@ -37,9 +37,18 @@
             <div>
                 <h2>Infographics</h2>
                 <div class="sidebar-box">
-                    <canvas id="myChart" class="graph-outer">
+                    <canvas id="GlobalChart" class="graph-outer">
                     </canvas>
-                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased</span></p>
+                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Global</span></p>
+                    <canvas id="ChinaChart" class="graph-outer">
+                    </canvas>
+                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | China</span></p>
+                    <canvas id="EuropeChart" class="graph-outer">
+                    </canvas>
+                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Europe</span></p>
+                    <canvas id="USChart" class="graph-outer">
+                    </canvas>
+                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | United States</span></p>
                 </div>
             </div>
             <div class="sidebar-box">
@@ -79,8 +88,8 @@
     </div>
 </body>
 <script type="text/javascript" src="./static/js/data_calculation.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script type="text/javascript" src="./static/js/charts.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 
 </html>

@@ -13,13 +13,12 @@ function generatedatelist(datelist){
             newlist.push("")
         }
     }
-    console.log(newlist);
+    //console.log(newlist);
     return newlist;}
 
 
-async function chartinit(){
-    var speedCanvas = document.getElementById("myChart");
-
+async function global_graph_init(){
+    var speedCanvas = document.getElementById("GlobalChart");
 
 
     var dt = await dict_to_array();
@@ -63,7 +62,7 @@ async function chartinit(){
         display: true,
         position: 'top',
         labels: {
-          boxWidth: 80,
+          boxWidth: 30,
           fontColor: 'blue'
         }
       }
@@ -75,4 +74,172 @@ async function chartinit(){
       options: chartOptions
     });}
 
-chartinit()
+
+
+async function china_graph_init(){
+    var speedCanvas = document.getElementById("ChinaChart");
+
+
+    var dt = await china_graph_data();
+    var confirmedlist = dt[0];
+    var deathslist = dt[1];
+    var recoveredlist = dt[2];
+    var dates = dt[3];
+
+    var confirmed = {
+        label: "Confirmed Cases",
+        data: confirmedlist,
+        lineTension: 0,
+        fill: false,
+        borderColor: 'red'
+      };
+
+    var recovered = {
+        label: "Recovered Cases",
+        data: recoveredlist,
+        lineTension: 0,
+        fill: false,
+      borderColor: 'blue'
+      };
+    var deaths = {
+        label: "Deceased Cases",
+        data: deathslist,
+        lineTension: 0,
+        fill: false,
+      borderColor: 'gray'
+      };
+
+    var casedata = {
+      labels: dates,
+      datasets: [confirmed, recovered, deaths]
+    };
+
+    var chartOptions = {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          boxWidth: 30,
+          fontColor: 'blue'
+        }
+      }
+    };
+
+    var lineChart = new Chart(speedCanvas, {
+      type: 'line',
+      data: casedata,
+      options: chartOptions
+    });}
+async function europe_graph_init(){
+    var speedCanvas = document.getElementById("EuropeChart");
+
+
+    var dt = await europe_graph_data();
+    var confirmedlist = dt[0];
+    var deathslist = dt[1];
+    var recoveredlist = dt[2];
+    var dates = dt[3];
+
+    var confirmed = {
+        label: "Confirmed Cases",
+        data: confirmedlist,
+        lineTension: 0,
+        fill: false,
+        borderColor: 'red'
+      };
+
+    var recovered = {
+        label: "Recovered Cases",
+        data: recoveredlist,
+        lineTension: 0,
+        fill: false,
+      borderColor: 'blue'
+      };
+    var deaths = {
+        label: "Deceased Cases",
+        data: deathslist,
+        lineTension: 0,
+        fill: false,
+      borderColor: 'gray'
+      };
+
+    var casedata = {
+      labels: dates,
+      datasets: [confirmed, recovered, deaths]
+    };
+
+    var chartOptions = {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          boxWidth: 30,
+          fontColor: 'blue'
+        }
+      }
+    };
+
+    var lineChart = new Chart(speedCanvas, {
+      type: 'line',
+      data: casedata,
+      options: chartOptions
+    });}
+async function us_graph_init(){
+    var speedCanvas = document.getElementById("USChart");
+
+
+    var dt = await us_graph_data();
+    var confirmedlist = dt[0];
+    var deathslist = dt[1];
+    var recoveredlist = dt[2];
+    var dates = dt[3];
+
+    var confirmed = {
+        label: "Confirmed Cases",
+        data: confirmedlist,
+        lineTension: 0,
+        fill: false,
+        borderColor: 'red'
+      };
+
+    var recovered = {
+        label: "Recovered Cases",
+        data: recoveredlist,
+        lineTension: 0,
+        fill: false,
+      borderColor: 'blue'
+      };
+    var deaths = {
+        label: "Deceased Cases",
+        data: deathslist,
+        lineTension: 0,
+        fill: false,
+      borderColor: 'gray'
+      };
+
+    var casedata = {
+      labels: dates,
+      datasets: [confirmed, recovered, deaths]
+    };
+
+    var chartOptions = {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          boxWidth: 30,
+          fontColor: 'blue'
+        }
+      }
+    };
+
+    var lineChart = new Chart(speedCanvas, {
+      type: 'line',
+      data: casedata,
+      options: chartOptions
+    });}
+
+global_graph_init();
+china_graph_init();
+us_graph_init();
+europe_graph_init();
