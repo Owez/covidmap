@@ -21,11 +21,11 @@
 <body>
     <div class="navbar">
         <div class="buttons">
-            <button>This is a button</button>
+            <a href="{{ url_for('index') }}" class="navbutton">Dashboard</a>
         </div>
         <h1><a href="{{ url_for('index') }}" class="navlink">CovidMap</a></h1>
         <div class="buttons">
-            <button>More buttons here</button>
+            <a href="{{ url_for('about') }}" class="navbutton">About</a>
         </div>
     </div>
     <div class="container">

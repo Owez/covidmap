@@ -106,6 +106,11 @@ def index():
     return render_template("index.html", newslets=Newslet.query.all())
 
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
 @app.route("/data", methods=["GET"])
 def passdata():
     try:
@@ -177,7 +182,7 @@ def pull_nytimes() -> int:
             )
 
             db.session.add(new_newslet)
-    
+
     db.session.commit()
 
     return resp.status_code
