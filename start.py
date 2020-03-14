@@ -1,6 +1,14 @@
-from apscheduler.schedulers.blocking import BlockingScheduler
-from covidmap import launch_flask
+import subprocess
+import time
 
-scheduler = BlockingScheduler()
-scheduler.add_job(launch_flask, 'interval', hours=3)
-scheduler.start()
+hour = 0
+
+while True:
+    if hour != 0:
+        print(f"Hour {hour}, resetting..")
+
+    proc = subprocess.Popen(["python3", "covidmap.py"])
+    time.sleep(60)
+    proc.terminate()
+
+    hour += 3

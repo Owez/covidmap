@@ -267,6 +267,3 @@ if __name__ == "__main__":
     populate_db()
 
     app.run(debug=False)
-def launch_flask():
-    populate_db()
-    app.run(debug=False)
