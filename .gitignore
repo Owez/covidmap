@@ -5,6 +5,7 @@
 # Other
 covidmap.db
 data/
+pw.env
 
 # Stuff that needs to be fixed
 data.csv

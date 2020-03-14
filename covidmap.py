@@ -262,4 +262,4 @@ def province_from_db_to_json():
 if __name__ == "__main__":
     populate_db()
 
-    app.run(debug=True)
+    app.run(debug=False)
