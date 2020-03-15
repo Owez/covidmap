@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Inter|Open+Sans&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.ico') }}"/>
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.ico') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>CovidMap</title>
 </head>
@@ -21,10 +21,15 @@
         </div>
     </div>
     <div class="container">
-        <!--Code here-->
+        <div class="banner">
+            <img src="{{ url_for('static', filename='img/warning.png') }}" alt="⚠️" class="noselect banner-emote">
+            <h3>Essential NHS Coronavirus infomation</h3>
+        </div>
+        {% block content %}{% endblock %}
     </div>
     <div class="footer">
-        <p>Made by CovidMap team, data <a href="https://github.com/CSSEGISandData/COVID-19">sourced</a> by John Hopkins CSSE</p>
+        <p>Made by CovidMap team, data <a href="https://github.com/CSSEGISandData/COVID-19">sourced</a> by John Hopkins
+            CSSE</p>
         <p>
             Copyright &copy;
             <script>document.write(new Date().getFullYear());</script> | All rights reserved
