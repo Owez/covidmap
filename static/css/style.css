@@ -153,20 +153,3 @@ a.nohighlight:link {
     text-align: center;
     margin-top: 0;
 }
-
-.banner {
-    background-color: #e7e7e7;
-    padding: 2.5rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.banner-emote {
-    width: 5rem;
-    height: 5rem;
-    font-size: x-large;
-}
