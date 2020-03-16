@@ -106,6 +106,15 @@ def index():
     return render_template("index.html", newslets=Newslet.query.all())
 
 
+@app.route("/greecedata", methods=["GET"])
+def greece_data():
+    response = {
+        "Success": "Data has been successfully transmitted",
+        "Data": greece_data_handler(),
+    }
+    return response, 200
+
+
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -261,6 +270,22 @@ def province_from_db_to_json():
                     "confirmed": row.confirmed,
                 }
     return province_data_dict
+
+
+def greece_data_handler():
+    with open("data/graphdata.json", "r") as jf:
+        data = json.load(jf)
+        greece_data = {}
+        for date in data:
+            try:
+                greece_data[date] = {
+                    "confirmed": data[date][0]["Greece"]["ConfirmedCases"],
+                    "deaths": data[date][0]["Greece"]["Deaths"],
+                    "recovered": data[date][0]["Greece"]["Recovered"],
+                }
+            except:
+                continue
+    return greece_data
 
 
 if __name__ == "__main__":
