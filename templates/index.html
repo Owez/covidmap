@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
+<<<<<<< HEAD
 <head>
     <link rel="icon" type="image/png" href="/static/logo.ico" />
     <meta charset="UTF-8">
@@ -20,78 +20,79 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <title>CovidMap</title>
 </head>
+=======
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+{% endblock %}
+>>>>>>> 535f3b3e6b73bbb396d491873d4d8d873f80ca16
 
-<body>
-    <div class="navbar">
-        <div class="buttons">
-            <a href="{{ url_for('index') }}" class="navbutton">Dashboard</a>
-        </div>
-        <h1><a href="{{ url_for('index') }}" class="navlink">CovidMap</a></h1>
-        <div class="buttons">
-            <a href="{{ url_for('about') }}" class="navbutton">About</a>
+{% block content %}
+<div class="map-outer">
+    <div class="graph-outer map" id="mapid"></div>
+    <p class="graph-title"><span class="graph-title-span">World map of total infections</span></p>
+</div>
+<div class="newswire-flex">
+    <div>
+        <h2>Infographics</h2>
+        <div class="sidebar-box">
+            <canvas id="GlobalChart" class="graph-outer">
+            </canvas>
+            <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Global</span>
+            </p>
+            <canvas id="ChinaChart" class="graph-outer">
+            </canvas>
+            <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | China</span>
+            </p>
+            <canvas id="EuropeChart" class="graph-outer">
+            </canvas>
+            <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Europe</span>
+            </p>
+            <canvas id="USChart" class="graph-outer">
+            </canvas>
+            <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | United
+                    States</span></p>
         </div>
     </div>
-    <div class="container">
-        <div class="map-outer">
-            <div class="graph-outer map" id="mapid"></div>
-            <p class="graph-title"><span class="graph-title-span">World map of total infections</span></p>
-        </div>
-        <div class="newswire-flex">
-            <div>
-                <h2>Infographics</h2>
-                <div class="sidebar-box">
-                    <canvas id="GlobalChart" class="graph-outer">
-                    </canvas>
-                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Global</span></p>
-                    <canvas id="ChinaChart" class="graph-outer">
-                    </canvas>
-                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | China</span></p>
-                    <canvas id="EuropeChart" class="graph-outer">
-                    </canvas>
-                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Europe</span></p>
-                    <canvas id="USChart" class="graph-outer">
-                    </canvas>
-                    <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | United States</span></p>
-                </div>
+    <div class="sidebar-box">
+        <div class="newsbox">
+            <h2>Newswire</h2>
+            {% if newslets %}
+            {% for newslet in newslets %}
+            <div class="newslet">
+                <a href="{{ newslet.id }}" class="nohighlight">
+                    <h3><b>{{ newslet.title }}</b></h3>
+                    <p>{{ newslet.lead_paragraph }}</p>
+                    <p class="newslet-date">{{ newslet.created }}</p>
+                </a>
             </div>
-            <div class="sidebar-box">
-                <div class="newsbox">
-                    <h2>Newswire</h2>
-                    {% if newslets %}
-                    {% for newslet in newslets %}
-                    <div class="newslet">
-                        <a href="{{ newslet.id }}" class="nohighlight">
-                            <h3><b>{{ newslet.title }}</b></h3>
-                            <p>{{ newslet.lead_paragraph }}</p>
-                            <p class="newslet-date">{{ newslet.created }}</p>
-                        </a>
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    <div class="newslet">
-                        <h3>No news available!</h3>
-                        <p><i>This is most likely a website error, please contact the developers of CovidMap!</i></p>
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="centerflex">
-                    <img src="{{ url_for('static', filename='img/folder.png') }}" alt=":(" class="folder noselect">
-                </div>
-                <p class="minicenter">You're all caught up!</p>
+            {% endfor %}
+            {% else %}
+            <div class="newslet">
+                <h3>No news available!</h3>
+                <p><i>This is most likely a website error, please contact the developers of CovidMap!</i></p>
             </div>
+            {% endif %}
         </div>
+        <div class="centerflex">
+            <img src="{{ url_for('static', filename='img/folder.png') }}" alt=":(" class="folder noselect">
+        </div>
+        <p class="minicenter">You're all caught up!</p>
     </div>
-    <div class="footer">
-        <p>Made by CovidMap team</p>
-        <p>
-            Copyright &copy;
-            <script>document.write(new Date().getFullYear());</script> | All rights reserved
-        </p>
-    </div>
-</body>
-<script type="text/javascript" src="./static/js/data_calculation.js"></script>
-<script type="text/javascript" src="./static/js/charts.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</div>
+{% endblock %}
 
-
+<<<<<<< HEAD
 </html>
+=======
+{% block bottom %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/data_calculation.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
+>>>>>>> 535f3b3e6b73bbb396d491873d4d8d873f80ca16

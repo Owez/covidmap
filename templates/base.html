@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Inter|Open+Sans&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.ico') }}"/>
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.ico') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
     <title>CovidMap</title>
 </head>
 
@@ -21,10 +22,11 @@
         </div>
     </div>
     <div class="container">
-        <!--Code here-->
+        {% block content %}{% endblock %}
     </div>
     <div class="footer">
-        <p>Made by CovidMap team</p>
+        <p>Made by CovidMap team, data <a href="https://github.com/CSSEGISandData/COVID-19">sourced</a> by John Hopkins
+            CSSE</p>
         <p>
             Copyright &copy;
             <script>document.write(new Date().getFullYear());</script> | All rights reserved
@@ -33,3 +35,4 @@
 </body>
 
 </html>
+{% block bottom %}{% endblock %}
