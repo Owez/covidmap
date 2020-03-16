@@ -1,64 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="map-outer">
-        <div class="graph-outer map" id="mapid"></div>
-        <p class="graph-title"><span class="graph-title-span">World map of total infections</span></p>
-    </div>
-    <div class="newswire-flex">
-        <div>
-            <h2>Infographics</h2>
-            <div class="sidebar-box">
-                <canvas id="GlobalChart" class="graph-outer">
-                </canvas>
-                <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Global</span>
-                </p>
-                <canvas id="ChinaChart" class="graph-outer">
-                </canvas>
-                <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | China</span>
-                </p>
-                <canvas id="EuropeChart" class="graph-outer">
-                </canvas>
-                <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Europe</span>
-                </p>
-                <canvas id="USChart" class="graph-outer">
-                </canvas>
-                <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | United
-                        States</span></p>
-            </div>
-        </div>
+<div class="map-outer">
+    <div class="graph-outer map" id="mapid"></div>
+    <p class="graph-title"><span class="graph-title-span">World map of total infections</span></p>
+</div>
+<div class="newswire-flex">
+    <div>
+        <h2>Infographics</h2>
         <div class="sidebar-box">
-            <div class="newsbox">
-                <h2>Newswire</h2>
-                {% if newslets %}
-                {% for newslet in newslets %}
-                <div class="newslet">
-                    <a href="{{ newslet.id }}" class="nohighlight">
-                        <h3><b>{{ newslet.title }}</b></h3>
-                        <p>{{ newslet.lead_paragraph }}</p>
-                        <p class="newslet-date">{{ newslet.created }}</p>
-                    </a>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="newslet">
-                    <h3>No news available!</h3>
-                    <p><i>This is most likely a website error, please contact the developers of CovidMap!</i></p>
-                </div>
-                {% endif %}
-            </div>
-            <div class="centerflex">
-                <img src="{{ url_for('static', filename='img/folder.png') }}" alt=":(" class="folder noselect">
-            </div>
-            <p class="minicenter">You're all caught up!</p>
+            <canvas id="GlobalChart" class="graph-outer">
+            </canvas>
+            <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Global</span>
+            </p>
+            <canvas id="ChinaChart" class="graph-outer">
+            </canvas>
+            <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | China</span>
+            </p>
+            <canvas id="EuropeChart" class="graph-outer">
+            </canvas>
+            <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | Europe</span>
+            </p>
+            <canvas id="USChart" class="graph-outer">
+            </canvas>
+            <p class="graph-title"><span class="graph-title-span">Total Infected/Recovered/Deceased | United
+                    States</span></p>
         </div>
+    </div>
+    <div class="sidebar-box">
+        <div class="newsbox">
+            <h2>Newswire</h2>
+            {% if newslets %}
+            {% for newslet in newslets %}
+            <div class="newslet">
+                <a href="{{ newslet.id }}" class="nohighlight">
+                    <h3><b>{{ newslet.title }}</b></h3>
+                    <p>{{ newslet.lead_paragraph }}</p>
+                    <p class="newslet-date">{{ newslet.created }}</p>
+                </a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="newslet">
+                <h3>No news available!</h3>
+                <p><i>This is most likely a website error, please contact the developers of CovidMap!</i></p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="centerflex">
+            <img src="{{ url_for('static', filename='img/folder.png') }}" alt=":(" class="folder noselect">
+        </div>
+        <p class="minicenter">You're all caught up!</p>
     </div>
 </div>
 {% endblock %}
 
 {% block bottom %}
-<script type="text/javascript" src="./static/js/data_calculation.js"></script>
-<script type="text/javascript" src="./static/js/charts.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/data_calculation.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/charts.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}
