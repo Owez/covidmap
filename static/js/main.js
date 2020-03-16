@@ -14,7 +14,7 @@ return endzoom;}
 
 
 var mymap = L.map('mapid').setView([41.153332, 20.168331], 3);
-const accesskey = 'pk.eyJ1Ijoic25lYWt5a2l3aSIsImEiOiJjazduZWRmc3EwMjMwM2R0N3J0amZoc3NlIn0.18IXK7pkL0TIsvOKGSJaPQ'
+const accesskey = 'pk.eyJ1Ijoic25lYWt5a2l3aSIsImEiOiJjazduZWRmc3EwMjMwM2R0N3J0amZoc3NlIn0.18IXK7pkL0TIsvOKGSJaPQ';
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + accesskey, {
     attribution: 'CovidMap ©',
     maxZoom: 18,
