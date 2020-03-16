@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Inter|Open+Sans&display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/logo.ico') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
     <title>CovidMap</title>
 </head>
 
