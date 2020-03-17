@@ -168,10 +168,6 @@ def province_data_pass():
         response = {"Error": str(e)}
         return response, 400
 
-@app.route('/greecedata', methods=['GET'])
-def greece_data():
-    response = {'Success':'Data has been successfully transmitted', 'Data': greece_data_handler()}
-    return response, 200
 
 # UTILS #
 
@@ -275,18 +271,6 @@ def province_from_db_to_json():
                 }
     return province_data_dict
 
-def greece_data_handler():
-    with open('data/graphdata.json', 'r') as jf:
-        data = json.load(jf)
-        greece_data = {}
-        for date in data:
-            try:
-               # print(data[date][0]['Greece'])
-                greece_data[date] = {'confirmed':data[date][0]['Greece']['ConfirmedCases'], 'deaths': data[date][0]['Greece']['Deaths'], 'recovered':data[date][0]['Greece']['Recovered'] }
-            except:
-                continue
-        #print(greece_data)
-    return greece_data
 
 def greece_data_handler():
     with open("data/graphdata.json", "r") as jf:
